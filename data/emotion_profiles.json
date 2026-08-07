@@ -1,0 +1,31 @@
+{
+    "neutral": {
+        "tone": "neutral and concise",
+        "music_category": "default"
+    },
+
+    "happy": {
+        "tone": "positive and energetic",
+        "music_category": "upbeat"
+    },
+
+    "sad": {
+        "tone": "gentle and supportive",
+        "music_category": "comforting"
+    },
+
+    "angry": {
+        "tone": "calm and non-confrontational",
+        "music_category": "calm"
+    },
+
+    "stressed": {
+        "tone": "calm and reassuring",
+        "music_category": "calm"
+    },
+
+    "tired": {
+        "tone": "brief and attentive",
+        "music_category": "low-intensity"
+    }
+}
