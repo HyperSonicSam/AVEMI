@@ -1,58 +1,162 @@
 # Emotion-Aware In-Vehicle Conversational Assistant
 
-An MSc Artificial Intelligence and Machine Learning project exploring the use of emotion-aware conversational AI within an in-vehicle environment.
+An MSc Artificial Intelligence and Machine Learning research project exploring the use of local language models and emotion-aware decision making in an in-vehicle conversational assistant.
 
-## Overview
-
-This project investigates how a conversational AI assistant can adapt its behaviour based on the emotional state of a vehicle occupant.
-
-The system is designed as an interactive in-vehicle assistant capable of understanding natural-language requests, maintaining a simulated vehicle state, and performing actions such as:
-
-- Controlling music
-- Adjusting vehicle temperature
-- Setting navigation destinations
-- Adapting responses and actions according to the user's emotional state
-
-The project compares a **baseline conversational assistant** with an **emotion-aware assistant** to investigate how emotional context can influence interaction and system behaviour.
+The project investigates how a conversational assistant can interpret natural-language requests, incorporate driver emotional context, and adapt non-driving vehicle interactions such as music selection, climate control, and navigation.
 
 ## Current Prototype
 
-The current demonstrator is built using Python and Streamlit.
+The current implementation provides an interactive Streamlit-based vehicle assistant with:
 
-The prototype currently includes:
-
-- Interactive conversational interface
-- Simulated vehicle state
-- Natural-language intent detection
-- Music control
-- Temperature control
-- Navigation control
-- Simulated driver emotion selection
-- Emotion confidence values
+- Natural-language conversation
+- Local LLM inference using Ollama
+- Structured command interpretation
+- Simulated driver emotion
 - Baseline and Emotion-Aware operating modes
-- Emotion-specific behavioural profiles
+- Emotion-adaptive music selection
+- Climate control
+- Navigation simulation
+- Simulated vehicle state
+- Rule-based fallback intent detection
+
+## Current Model
+
+The prototype currently uses:
+
+**Qwen3 4B Instruct via Ollama**
+
+The model runs locally and is used for:
+
+1. Interpreting natural-language input into structured vehicle commands.
+2. Generating short conversational responses.
+
+The model can be replaced without changing the overall system architecture, allowing different local language models to be evaluated.
 
 ## System Architecture
 
-The project is being developed using a modular architecture:
+The current pipeline is:
+
+User Input  
+↓  
+Local LLM Command Parser  
+↓  
+Structured Command  
+↓  
+Vehicle Action Manager  
+↓  
+Vehicle State Update  
+↓  
+Emotion-Aware Prompt Construction  
+↓  
+Local LLM Response Generation  
+↓  
+Assistant Response
+
+A deterministic action layer is maintained between the language model and the simulated vehicle state. The LLM interprets requests, while Python controls the execution of vehicle actions.
+
+## Emotion-Aware Behaviour
+
+The prototype currently supports the following simulated emotional states:
+
+- Neutral
+- Happy
+- Sad
+- Angry
+- Stressed
+- Tired
+
+The interface provides two experimental modes:
+
+### Baseline
+
+The assistant performs tasks without using the simulated emotional state to adapt its behaviour.
+
+### Emotion-Aware
+
+The assistant receives emotional context and can adapt its responses and actions accordingly.
+
+For example, the same request to play music can result in different music categories depending on the simulated emotional state.
+
+## Supported Vehicle Interactions
+
+The current prototype supports:
+
+### Music
+
+Examples:
+
+- "Play some music."
+- "Put something on."
+- "I am stressed, play something relaxing."
+
+### Climate Control
+
+Examples:
+
+- "Set the temperature to 20."
+- "It is cold."
+- "Make it warmer."
+- "It is too hot."
+
+### Navigation
+
+Examples:
+
+- "Take me home."
+- "Navigate home."
+- "Give me directions home."
+
+The language model converts natural-language requests into structured commands before they are executed by the vehicle action manager.
+
+## Technology Stack
+
+- Python
+- Streamlit
+- Ollama
+- Qwen3 4B Instruct
+- JSON-based emotion profiles
+
+## Project Structure
 
 ```text
-User Interaction
-       |
-       v
-Streamlit Interface
-       |
-       +------------------+
-       |                  |
-       v                  v
-Intent Router       Emotion Manager
-       |                  |
-       |            Emotion Profile
-       |                  |
-       +--------+---------+
-                |
-                v
-         Action Manager
-                |
-                v
-       Simulated Vehicle State
+sxb2022/
+├── assets/
+├── data/
+│   └── emotion_profiles.json
+├── src/
+│   ├── core/
+│   ├── emotion/
+│   │   └── emotion_manager.py
+│   ├── intents/
+│   │   └── intent_router.py
+│   ├── llm/
+│   │   ├── command_parser.py
+│   │   ├── ollama_client.py
+│   │   └── prompt_builder.py
+│   ├── storage/
+│   ├── utils/
+│   └── vehicle/
+│       └── action_manager.py
+├── tests/
+├── app.py
+├── requirements.txt
+└── README.md
+
+## Research Direction
+
+The wider research investigates emotion-aware conversational AI for in-vehicle environments, with particular emphasis on non-driving interactions.
+
+Future development and evaluation will explore areas including:
+
+Emotion-aware conversational adaptation
+Emotion recognition and datasets
+Local SLM/LLM performance
+Model latency and resource requirements
+Baseline versus emotion-aware behaviour
+Natural-language command understanding
+Conversational context and follow-up requests
+Evaluation of response and action quality
+
+## Status
+
+The project is currently under active development as part of an MSc Artificial Intelligence and Machine Learning final project.

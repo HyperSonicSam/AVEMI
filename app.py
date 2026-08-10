@@ -5,7 +5,14 @@ from src.emotion.emotion_manager import (
     get_emotion_profile
 )
 from src.intents.intent_router import detect_intent
-from src.vehicle.action_manager import execute_action
+from src.vehicle.action_manager import (
+    execute_action,
+    execute_structured_action
+) 
+
+from src.llm.ollama_client import generate_response
+from src.llm.prompt_builder import build_system_prompt
+from src.llm.command_parser import parse_command
 
 st.set_page_config(
     page_title="Emotion-Aware In-Vehicle Assistant",
@@ -153,13 +160,49 @@ with conversation_column:
             }
         )
 
-        intent = detect_intent(user_message)
-
-        assistant_response = execute_action(
-            intent,
+        command = parse_command(
             user_message,
             st.session_state.vehicle_state
         )
+
+        if command:
+            action_response = execute_structured_action(
+                command,
+                st.session_state.vehicle_state,
+                emotion_profile
+            )
+
+        else:
+            intent = detect_intent(user_message)
+
+            action_response = execute_action(
+                intent,
+                user_message,
+                st.session_state.vehicle_state,
+                emotion_profile
+            )
+
+        system_prompt = build_system_prompt(
+            emotion_context,
+            emotion_profile,
+            st.session_state.vehicle_state
+        )
+
+        llm_messages = [
+            {
+                "role": "system",
+                "content": system_prompt
+            },
+            {
+                "role": "user",
+                "content": (
+                    f"User message: {user_message}\n\n"
+                    f"Vehicle action result: {action_response}\n\n"
+                )
+            }
+        ]
+
+        assistant_response = generate_response(llm_messages)
     
         st.session_state.messages.append(
             {
