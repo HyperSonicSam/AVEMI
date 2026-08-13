@@ -3,7 +3,11 @@ import json
 from src.llm.ollama_client import generate_response
 
 
-def parse_command(user_message, vehicle_state):
+def parse_command(
+    user_message,
+    vehicle_state,
+    conversation_history=None
+):
     """
     Convert a natural-language user message into a structured vehicle command.
 
@@ -173,6 +177,119 @@ Schema:
   "intent": "unknown"
 }
 
+7. cancel_navigation
+
+Use this when the user wants to stop or cancel the currently active navigation.
+
+Schema:
+{
+  "intent": "cancel_navigation"
+}
+
+Examples:
+
+User: "Cancel navigation"
+Output:
+{"intent": "cancel_navigation"}
+
+User: "Stop navigation"
+Output:
+{"intent": "cancel_navigation"}
+
+User: "Cancel that"
+Output:
+{"intent": "cancel_navigation"}
+
+User: "Stop the route"
+Output:
+{"intent": "cancel_navigation"}
+
+8. pause_music
+
+Use this when the user wants to stop or pause currently playing music.
+
+Schema:
+{
+  "intent": "pause_music"
+}
+
+Examples:
+
+User: "Pause the music"
+Output:
+{"intent": "pause_music"}
+
+User: "Stop the music"
+Output:
+{"intent": "pause_music"}
+
+User: "Turn that off"
+Output:
+{"intent": "pause_music"}
+
+User: "Pause it"
+Output:
+{"intent": "pause_music"}
+
+9. resume_music
+
+Use this when the user wants to resume previously paused music.
+
+Schema:
+{
+  "intent": "resume_music"
+}
+
+Examples:
+
+User: "Resume the music"
+Output:
+{"intent": "resume_music"}
+
+User: "Continue the music"
+Output:
+{"intent": "resume_music"}
+
+User: "Play it again"
+Output:
+{"intent": "resume_music"}
+
+User: "Resume it"
+Output:
+{"intent": "resume_music"}
+
+10. navigate_to
+
+Use this when the user asks to navigate to a specific destination other than Home.
+
+Schema:
+{
+  "intent": "navigate_to",
+  "destination": "University of Birmingham"
+}
+
+Examples:
+
+User: "Navigate to the University of Birmingham"
+Output:
+{"intent": "navigate_to", "destination": "University of Birmingham"}
+
+User: "Take me to New Street Station"
+Output:
+{"intent": "navigate_to", "destination": "New Street Station"}
+
+User: "Give me directions to Tesco"
+Output:
+{"intent": "navigate_to", "destination": "Tesco"}
+
+User: "Drive to the airport"
+Output:
+{"intent": "navigate_to", "destination": "the airport"}
+
+Rules:
+- Extract only the destination requested by the user.
+- Do not invent a destination.
+- If the destination is Home, use the navigate_home intent instead.
 
 IMPORTANT RULES:
 
@@ -202,22 +319,107 @@ Output:
 - Do not invent destinations.
 - Do not claim to execute actions.
 - Your only task is classification and extraction.
+
+CONVERSATIONAL FOLLOW-UP RULES:
+
+A short reply such as:
+- "yes"
+- "sure"
+- "okay"
+- "go ahead"
+- "do that"
+- "please do"
+
+may refer to a vehicle action suggested in the immediately preceding assistant message.
+
+Only infer the action when the previous assistant message clearly offered a specific vehicle action.
+
+Examples:
+
+Assistant: "Would you like me to play some calming music?"
+User: "Yes"
+Output:
+{"intent": "play_music"}
+
+Assistant: "Would you like me to make the cabin warmer?"
+User: "Go ahead"
+Output:
+{"intent": "adjust_temperature", "direction": "increase"}
+
+Assistant: "Would you like me to navigate home?"
+User: "Sure"
+Output:
+{"intent": "navigate_home"}
+
+If navigation is currently active, phrases such as:
+- "cancel that"
+- "stop that"
+- "cancel it"
+- "stop navigation"
+- "end the route"
+
+should be interpreted as:
+{"intent": "cancel_navigation"}
+
+If music is currently playing, phrases such as:
+- "pause it"
+- "stop that"
+- "turn that off"
+- "stop the music"
+- "pause the music"
+
+should be interpreted as:
+{"intent": "pause_music"}
+
+If music is currently paused and a music category has already been selected,
+phrases such as:
+- "resume it"
+- "continue it"
+- "play it again"
+- "continue the music"
+
+should be interpreted as:
+{"intent": "resume_music"}
+
+If there is no clear previous vehicle-action suggestion, treat a reply such as
+"yes" or "okay" as conversation.
 """
+    if conversation_history is None:
+        conversation_history = []
+
+    recent_history = conversation_history[-4:]
 
     messages = [
         {
             "role": "system",
             "content": system_prompt
-        },
+        }
+    ]
+
+    for message in recent_history:
+        messages.append(
+            {
+                "role": message["role"],
+                "content": message["content"]
+            }
+        )
+
+    messages.append(
         {
             "role": "user",
             "content": (
                 f"Current vehicle temperature: "
                 f"{vehicle_state['temperature']}°C\n\n"
+                f"Current music status: "
+                f"{vehicle_state['music_status']}\n\n"
+                f"Current music category: "
+                f"{vehicle_state['music_category']}\n\n"
+                f"Current destination: "
+                f"{vehicle_state['destination']}\n\n"
                 f"User message: {user_message}"
             )
         }
-    ]
+    )
 
     response = generate_response(
         messages,

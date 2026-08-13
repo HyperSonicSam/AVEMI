@@ -153,16 +153,17 @@ with conversation_column:
     )
 
     if user_message:
+        command = parse_command(
+            user_message,
+            st.session_state.vehicle_state,
+            st.session_state.messages
+        )
+
         st.session_state.messages.append(
             {
                 "role": "user",
                 "content": user_message
             }
-        )
-
-        command = parse_command(
-            user_message,
-            st.session_state.vehicle_state
         )
 
         if command:
@@ -202,7 +203,35 @@ with conversation_column:
             }
         ]
 
-        assistant_response = generate_response(llm_messages)
+        intent = command.get("intent") if command else "unknown"
+
+        # Vehicle actions use deterministic responses.
+        # This prevents the LLM from hallucinating or incorrectly
+        # describing an action that has already been executed.
+        if intent not in ["conversation", "unknown"]:
+            assistant_response = action_response
+
+        else:
+            system_prompt = build_system_prompt(
+                emotion_context,
+                emotion_profile,
+                st.session_state.vehicle_state
+            )
+
+            llm_messages = [
+                {
+                    "role": "system",
+                    "content": system_prompt
+                },
+                {
+                    "role": "user",
+                    "content": user_message
+                }
+            ]
+
+            assistant_response = generate_response(
+                llm_messages
+            )
     
         st.session_state.messages.append(
             {

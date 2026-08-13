@@ -60,13 +60,19 @@ def execute_structured_action(
         vehicle_state["music_status"] = "Playing"
 
         if emotion_profile:
-            music_category = emotion_profile["music_category"]
+            music_category = emotion_profile.get(
+                "music_category",
+                "default"
+            )
         else:
             music_category = "default"
 
-        vehicle_state["music_category"] = music_category.title()
+        vehicle_state["music_category"] = music_category.capitalize()
 
-        return f"Playing {music_category} music."
+        return (
+            f"Playing "
+            f"{vehicle_state['music_category'].lower()} music."
+        )
 
     if intent == "set_temperature":
         temperature = command.get("temperature")
@@ -107,5 +113,50 @@ def execute_structured_action(
         vehicle_state["navigation_active"] = True
 
         return "Starting navigation to Home."
+
+    if intent == "cancel_navigation":
+
+        if vehicle_state["navigation_active"]:
+            vehicle_state["navigation_active"] = False
+            vehicle_state["destination"] = "None"
+
+            return "Navigation cancelled."
+
+        return "Navigation is not currently active."
+
+    if intent == "pause_music":
+
+        if vehicle_state["music_status"] == "Playing":
+            vehicle_state["music_status"] = "Paused"
+
+            return "Music paused."
+
+        return "Music is already paused."
+
+    if intent == "resume_music":
+
+        if vehicle_state["music_status"] == "Playing":
+            return "Music is already playing."
+
+        if vehicle_state["music_category"] == "None":
+            return "There is no paused music to resume."
+
+        vehicle_state["music_status"] = "Playing"
+
+        return (
+            f"Resuming "
+            f"{vehicle_state['music_category'].lower()} music."
+        )
+
+    if intent == "navigate_to":
+        destination = command.get("destination")
+
+        if not destination:
+            return "I need a destination to start navigation."
+
+        vehicle_state["destination"] = destination
+        vehicle_state["navigation_active"] = True
+
+        return f"Starting navigation to {destination}."
 
     return "I couldn't identify a vehicle action."

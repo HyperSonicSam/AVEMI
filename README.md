@@ -141,22 +141,3 @@ sxb2022/
 ├── app.py
 ├── requirements.txt
 └── README.md
-
-## Research Direction
-
-The wider research investigates emotion-aware conversational AI for in-vehicle environments, with particular emphasis on non-driving interactions.
-
-Future development and evaluation will explore areas including:
-
-Emotion-aware conversational adaptation
-Emotion recognition and datasets
-Local SLM/LLM performance
-Model latency and resource requirements
-Baseline versus emotion-aware behaviour
-Natural-language command understanding
-Conversational context and follow-up requests
-Evaluation of response and action quality
-
-## Status
-
-The project is currently under active development as part of an MSc Artificial Intelligence and Machine Learning final project.

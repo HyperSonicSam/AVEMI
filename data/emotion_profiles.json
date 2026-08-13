@@ -1,31 +1,49 @@
 {
-    "neutral": {
-        "tone": "neutral and concise",
-        "music_category": "default"
-    },
+  "neutral": {
+    "tone": "neutral and concise",
+    "verbosity": "short",
+    "music_category": "default",
+    "suggestion_style": "minimal",
+    "interaction_style": "standard"
+  },
 
-    "happy": {
-        "tone": "positive and energetic",
-        "music_category": "upbeat"
-    },
+  "happy": {
+    "tone": "positive and upbeat",
+    "verbosity": "short",
+    "music_category": "upbeat",
+    "suggestion_style": "normal",
+    "interaction_style": "energetic"
+  },
 
-    "sad": {
-        "tone": "gentle and supportive",
-        "music_category": "comforting"
-    },
+  "sad": {
+    "tone": "gentle and supportive",
+    "verbosity": "short",
+    "music_category": "comforting",
+    "suggestion_style": "supportive",
+    "interaction_style": "soft"
+  },
 
-    "angry": {
-        "tone": "calm and non-confrontational",
-        "music_category": "calm"
-    },
+  "angry": {
+    "tone": "calm and non-confrontational",
+    "verbosity": "very short",
+    "music_category": "calm",
+    "suggestion_style": "minimal",
+    "interaction_style": "low-distraction"
+  },
 
-    "stressed": {
-        "tone": "calm and reassuring",
-        "music_category": "calm"
-    },
+  "stressed": {
+    "tone": "calm and reassuring",
+    "verbosity": "very short",
+    "music_category": "calm",
+    "suggestion_style": "reduce cognitive load",
+    "interaction_style": "low-distraction"
+  },
 
-    "tired": {
-        "tone": "brief and attentive",
-        "music_category": "low-intensity"
-    }
+  "tired": {
+    "tone": "brief and attentive",
+    "verbosity": "very short",
+    "music_category": "focus",
+    "suggestion_style": "safety-aware",
+    "interaction_style": "low-distraction"
+  }
 }
