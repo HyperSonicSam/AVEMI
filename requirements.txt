@@ -1,2 +1,4 @@
 streamlit
 ollama
+faster-whisper
+streamlit-mic-recorder
