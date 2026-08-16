@@ -844,25 +844,39 @@ if (
 # Text input
 # -----------------------------
 
-input_column, mic_column, send_column = st.columns(
-    [9.5, 1.15, 1.15],
+# -----------------------------
+# Text + Voice input
+# -----------------------------
+
+text_form_column, mic_column = st.columns(
+    [10.5, 1.2],
     gap="small"
 )
 
-with input_column:
-    typed_message = st.text_input(
-        "Message AVEMI",
-        placeholder="Message AVEMI...",
-        label_visibility="collapsed",
-        key="avemi_text_input"
-    )
+with text_form_column:
+    with st.form(
+        "avemi_message_form",
+        clear_on_submit=True,
+        enter_to_submit=True,
+        border=False
+    ):
+        text_column, send_column = st.columns(
+            [10, 1],
+            gap="small"
+        )
 
-with send_column:
-    send_message = st.button(
-        "➜",
-        use_container_width=True,
-        key="send_avemi_message"
-    )
+        with text_column:
+            typed_message = st.text_input(
+                "Message AVEMI",
+                placeholder="Message AVEMI...",
+                label_visibility="collapsed"
+            )
+
+        with send_column:
+            send_message = st.form_submit_button(
+                "➜",
+                use_container_width=True
+            )
 
 with mic_column:
     audio = mic_recorder(
@@ -870,9 +884,9 @@ with mic_column:
         stop_prompt="⏹",
         just_once=True,
         use_container_width=True,
-        key="avemi_mic",
-        format="wav"
+        key="avemi_mic"
     )
+
 
 voice_message = None
 

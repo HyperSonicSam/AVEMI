@@ -159,4 +159,60 @@ def execute_structured_action(
 
         return f"Starting navigation to {destination}."
 
+    if intent == "get_fuel_level":
+        return (
+            f"Your current fuel level is "
+            f"{vehicle_state['fuel_level']}%."
+        )
+
+
+    if intent == "get_temperature":
+        return (
+            f"The cabin temperature is "
+            f"{vehicle_state['temperature']}°C."
+        )
+
+
+    if intent == "get_music_status":
+        music_status = vehicle_state["music_status"]
+        music_category = vehicle_state["music_category"]
+
+        if music_status.lower() == "playing":
+            return (
+                f"Music is currently playing. "
+                f"The category is {music_category.lower()}."
+            )
+
+        return (
+            f"Music is currently "
+            f"{music_status.lower()}."
+        )
+
+
+    if intent == "get_navigation_status":
+        if vehicle_state["navigation_active"]:
+            return (
+                f"Navigation is currently active to "
+                f"{vehicle_state['destination']}."
+            )
+
+        return "Navigation is currently inactive."
+
+
+    if intent == "get_destination":
+        destination = vehicle_state["destination"]
+
+        if (
+            destination == "None"
+            or not vehicle_state["navigation_active"]
+        ):
+            return (
+                "There is currently no active destination."
+            )
+
+        return (
+            f"The current destination is "
+            f"{destination}."
+        )
+
     return "I couldn't identify a vehicle action."

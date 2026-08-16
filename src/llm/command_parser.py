@@ -36,7 +36,7 @@ Supported intents:
 
 Use this when the user is only talking, expressing an emotion,
 making a statement, or asking something that does not require
-a vehicle action.
+a vehicle action or vehicle-state lookup.
 
 Schema:
 {
@@ -170,12 +170,14 @@ Output:
 6. unknown
 
 Use this only when the request cannot reasonably be classified
-as conversation or one of the supported vehicle actions.
+as conversation, a supported vehicle action, or a supported
+vehicle-state lookup.
 
 Schema:
 {
   "intent": "unknown"
 }
+
 
 7. cancel_navigation
 
@@ -204,6 +206,7 @@ User: "Stop the route"
 Output:
 {"intent": "cancel_navigation"}
 
+
 8. pause_music
 
 Use this when the user wants to stop or pause currently playing music.
@@ -231,6 +234,7 @@ User: "Pause it"
 Output:
 {"intent": "pause_music"}
 
+
 9. resume_music
 
 Use this when the user wants to resume previously paused music.
@@ -257,6 +261,7 @@ Output:
 User: "Resume it"
 Output:
 {"intent": "resume_music"}
+
 
 10. navigate_to
 
@@ -291,6 +296,140 @@ Rules:
 - Do not invent a destination.
 - If the destination is Home, use the navigate_home intent instead.
 
+
+11. get_fuel_level
+
+Use this when the user asks about the current fuel level.
+
+Schema:
+{
+  "intent": "get_fuel_level"
+}
+
+Examples:
+
+User: "What is my fuel level?"
+Output:
+{"intent": "get_fuel_level"}
+
+User: "How much fuel do I have?"
+Output:
+{"intent": "get_fuel_level"}
+
+User: "How much fuel is left?"
+Output:
+{"intent": "get_fuel_level"}
+
+User: "What's the current fuel level?"
+Output:
+{"intent": "get_fuel_level"}
+
+
+12. get_temperature
+
+Use this when the user asks about the current cabin temperature.
+Do not use this when the user is requesting a temperature change.
+
+Schema:
+{
+  "intent": "get_temperature"
+}
+
+Examples:
+
+User: "What is the current temperature?"
+Output:
+{"intent": "get_temperature"}
+
+User: "What temperature is it in here?"
+Output:
+{"intent": "get_temperature"}
+
+User: "What's the cabin temperature?"
+Output:
+{"intent": "get_temperature"}
+
+
+13. get_music_status
+
+Use this when the user asks about the current music or media status.
+
+Schema:
+{
+  "intent": "get_music_status"
+}
+
+Examples:
+
+User: "Is music playing?"
+Output:
+{"intent": "get_music_status"}
+
+User: "Is the music paused?"
+Output:
+{"intent": "get_music_status"}
+
+User: "What music is playing?"
+Output:
+{"intent": "get_music_status"}
+
+User: "What's playing?"
+Output:
+{"intent": "get_music_status"}
+
+
+14. get_navigation_status
+
+Use this when the user asks whether navigation is currently active.
+
+Schema:
+{
+  "intent": "get_navigation_status"
+}
+
+Examples:
+
+User: "Is navigation active?"
+Output:
+{"intent": "get_navigation_status"}
+
+User: "Is the navigation running?"
+Output:
+{"intent": "get_navigation_status"}
+
+User: "Are we currently navigating?"
+Output:
+{"intent": "get_navigation_status"}
+
+
+15. get_destination
+
+Use this when the user asks about the current navigation destination.
+
+Schema:
+{
+  "intent": "get_destination"
+}
+
+Examples:
+
+User: "Where are we going?"
+Output:
+{"intent": "get_destination"}
+
+User: "What is our destination?"
+Output:
+{"intent": "get_destination"}
+
+User: "Where are we navigating to?"
+Output:
+{"intent": "get_destination"}
+
+User: "What's the current destination?"
+Output:
+{"intent": "get_destination"}
+
+
 IMPORTANT RULES:
 
 - Do not perform a vehicle action just because the user mentions an emotion.
@@ -319,6 +458,40 @@ Output:
 - Do not invent destinations.
 - Do not claim to execute actions.
 - Your only task is classification and extraction.
+
+VEHICLE-STATE QUERY RULES:
+
+- Questions about the current vehicle state must use the relevant
+  get_* intent instead of conversation.
+
+- A question about fuel level must use get_fuel_level.
+- A question about the current cabin temperature must use get_temperature.
+- A question about current music status must use get_music_status.
+- A question about whether navigation is active must use get_navigation_status.
+- A question about the current destination must use get_destination.
+
+- Do not guess or generate vehicle-state values.
+- Do not include the vehicle-state value in the JSON response.
+- Only identify which vehicle-state information the user is requesting.
+
+Examples:
+
+User: "How much fuel have I got left?"
+Output:
+{"intent": "get_fuel_level"}
+
+User: "What temperature is the car?"
+Output:
+{"intent": "get_temperature"}
+
+User: "Are we navigating right now?"
+Output:
+{"intent": "get_navigation_status"}
+
+User: "Where are we heading?"
+Output:
+{"intent": "get_destination"}
+
 
 CONVERSATIONAL FOLLOW-UP RULES:
 
@@ -384,6 +557,7 @@ should be interpreted as:
 If there is no clear previous vehicle-action suggestion, treat a reply such as
 "yes" or "okay" as conversation.
 """
+
     if conversation_history is None:
         conversation_history = []
 
@@ -410,12 +584,16 @@ If there is no clear previous vehicle-action suggestion, treat a reply such as
             "content": (
                 f"Current vehicle temperature: "
                 f"{vehicle_state['temperature']}°C\n\n"
+                f"Current fuel level: "
+                f"{vehicle_state['fuel_level']}%\n\n"
                 f"Current music status: "
                 f"{vehicle_state['music_status']}\n\n"
                 f"Current music category: "
                 f"{vehicle_state['music_category']}\n\n"
                 f"Current destination: "
                 f"{vehicle_state['destination']}\n\n"
+                f"Navigation active: "
+                f"{vehicle_state['navigation_active']}\n\n"
                 f"User message: {user_message}"
             )
         }
