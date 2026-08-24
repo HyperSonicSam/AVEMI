@@ -2,3 +2,10 @@ streamlit
 ollama
 faster-whisper
 streamlit-mic-recorder
+tensorflow
+librosa
+numpy
+pandas
+scikit-learn
+matplotlib
+soundfile

@@ -1,0 +1,1413 @@
+{
+  "summary": {
+    "vehicle_intent_accuracy": 1.0,
+    "unsupported_detection_accuracy": 1.0,
+    "average_baseline_response_time": 0.55,
+    "average_emotion_aware_response_time": 0.334,
+    "total_test_cases": 31,
+    "total_vehicle_tests": 19,
+    "correct_vehicle_intents": 19,
+    "total_unsupported_tests": 2,
+    "correct_unsupported_requests": 2
+  },
+  "results": [
+    {
+      "id": "CONV_001",
+      "category": "conversation",
+      "emotion": "angry",
+      "message": "This journey is really frustrating me.",
+      "baseline": {
+        "mode": "Baseline",
+        "predicted_intent": "conversation",
+        "command": {
+          "intent": "conversation"
+        },
+        "response": "I'm sorry you're feeling that way. Would you like me to help you adjust the music or temperature?",
+        "response_time_seconds": 7.35,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": null
+      },
+      "emotion_aware": {
+        "mode": "Emotion-Aware",
+        "predicted_intent": "conversation",
+        "command": {
+          "intent": "conversation"
+        },
+        "response": "I'm sorry you're feeling that way.  \nWant me to suggest a different route?",
+        "response_time_seconds": 0.621,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": null
+      }
+    },
+    {
+      "id": "CONV_002",
+      "category": "conversation",
+      "emotion": "angry",
+      "message": "Everything about this drive is annoying me.",
+      "baseline": {
+        "mode": "Baseline",
+        "predicted_intent": "conversation",
+        "command": {
+          "intent": "conversation"
+        },
+        "response": "I'm sorry you're feeling that way. Would you like to adjust the music or temperature?",
+        "response_time_seconds": 0.618,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": null
+      },
+      "emotion_aware": {
+        "mode": "Emotion-Aware",
+        "predicted_intent": "conversation",
+        "command": {
+          "intent": "conversation"
+        },
+        "response": "I'm sorry you're feeling that way. Want to try a different route?",
+        "response_time_seconds": 0.595,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": null
+      }
+    },
+    {
+      "id": "CONV_003",
+      "category": "conversation",
+      "emotion": "sad",
+      "message": "I'm having a really difficult day.",
+      "baseline": {
+        "mode": "Baseline",
+        "predicted_intent": "conversation",
+        "command": {
+          "intent": "conversation"
+        },
+        "response": "I'm sorry you're going through that. Want to listen to something to help you relax?",
+        "response_time_seconds": 0.604,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": null
+      },
+      "emotion_aware": {
+        "mode": "Emotion-Aware",
+        "predicted_intent": "conversation",
+        "command": {
+          "intent": "conversation"
+        },
+        "response": "I'm here for you. Want to listen to something soothing?",
+        "response_time_seconds": 0.564,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": null
+      }
+    },
+    {
+      "id": "CONV_004",
+      "category": "conversation",
+      "emotion": "sad",
+      "message": "I'm feeling pretty low today.",
+      "baseline": {
+        "mode": "Baseline",
+        "predicted_intent": "conversation",
+        "command": {
+          "intent": "conversation"
+        },
+        "response": "I'm sorry you're feeling that way. Would you like to listen to some music or try a different route?",
+        "response_time_seconds": 0.657,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": null
+      },
+      "emotion_aware": {
+        "mode": "Emotion-Aware",
+        "predicted_intent": "conversation",
+        "command": {
+          "intent": "conversation"
+        },
+        "response": "I'm here for you. Want to listen to something uplifting?",
+        "response_time_seconds": 0.576,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": null
+      }
+    },
+    {
+      "id": "CONV_005",
+      "category": "conversation",
+      "emotion": "fear",
+      "message": "I'm feeling really nervous about this journey.",
+      "baseline": {
+        "mode": "Baseline",
+        "predicted_intent": "conversation",
+        "command": {
+          "intent": "conversation"
+        },
+        "response": "I'm sorry you're feeling that way. Would you like me to play some calming music or adjust the temperature?",
+        "response_time_seconds": 0.66,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": null
+      },
+      "emotion_aware": {
+        "mode": "Emotion-Aware",
+        "predicted_intent": "conversation",
+        "command": {
+          "intent": "conversation"
+        },
+        "response": "I'm sorry you're feeling that way. Would you like me to play some calming music or adjust the temperature to help you feel more comfortable?",
+        "response_time_seconds": 0.7,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": null
+      }
+    },
+    {
+      "id": "CONV_006",
+      "category": "conversation",
+      "emotion": "fear",
+      "message": "I'm a bit worried about driving right now.",
+      "baseline": {
+        "mode": "Baseline",
+        "predicted_intent": "conversation",
+        "command": {
+          "intent": "conversation"
+        },
+        "response": "I'm sorry you're feeling that way. If you need to adjust the music or temperature, I can help with that.",
+        "response_time_seconds": 0.655,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": null
+      },
+      "emotion_aware": {
+        "mode": "Emotion-Aware",
+        "predicted_intent": "conversation",
+        "command": {
+          "intent": "conversation"
+        },
+        "response": "I'm sorry you're feeling that way. If you need to adjust the climate or music, I can help with that.",
+        "response_time_seconds": 0.63,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": null
+      }
+    },
+    {
+      "id": "CONV_007",
+      "category": "conversation",
+      "emotion": "happy",
+      "message": "I'm having such a great day today.",
+      "baseline": {
+        "mode": "Baseline",
+        "predicted_intent": "conversation",
+        "command": {
+          "intent": "conversation"
+        },
+        "response": "That's great to hear! Enjoy the moment.",
+        "response_time_seconds": 0.469,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": null
+      },
+      "emotion_aware": {
+        "mode": "Emotion-Aware",
+        "predicted_intent": "conversation",
+        "command": {
+          "intent": "conversation"
+        },
+        "response": "That's awesome to hear! Enjoy every moment.",
+        "response_time_seconds": 0.539,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": null
+      }
+    },
+    {
+      "id": "CONV_008",
+      "category": "conversation",
+      "emotion": "happy",
+      "message": "This has been a really good day.",
+      "baseline": {
+        "mode": "Baseline",
+        "predicted_intent": "conversation",
+        "command": {
+          "intent": "conversation"
+        },
+        "response": "That's great to hear. Enjoy the rest of your day.",
+        "response_time_seconds": 0.54,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": null
+      },
+      "emotion_aware": {
+        "mode": "Emotion-Aware",
+        "predicted_intent": "conversation",
+        "command": {
+          "intent": "conversation"
+        },
+        "response": "That's awesome to hear! \ud83c\udf89",
+        "response_time_seconds": 0.516,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": null
+      }
+    },
+    {
+      "id": "CONV_009",
+      "category": "conversation",
+      "emotion": "neutral",
+      "message": "The journey is going fine.",
+      "baseline": {
+        "mode": "Baseline",
+        "predicted_intent": "conversation",
+        "command": {
+          "intent": "conversation"
+        },
+        "response": "Good to hear. Safe travels.",
+        "response_time_seconds": 0.453,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": null
+      },
+      "emotion_aware": {
+        "mode": "Emotion-Aware",
+        "predicted_intent": "conversation",
+        "command": {
+          "intent": "conversation"
+        },
+        "response": "Good to hear. Enjoy the drive.",
+        "response_time_seconds": 0.499,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": null
+      }
+    },
+    {
+      "id": "CONV_010",
+      "category": "conversation",
+      "emotion": "disgust",
+      "message": "This situation is really unpleasant.",
+      "baseline": {
+        "mode": "Baseline",
+        "predicted_intent": "conversation",
+        "command": {
+          "intent": "conversation"
+        },
+        "response": "I'm sorry you're feeling that way. Let me know if you need anything.",
+        "response_time_seconds": 0.578,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": null
+      },
+      "emotion_aware": {
+        "mode": "Emotion-Aware",
+        "predicted_intent": "conversation",
+        "command": {
+          "intent": "conversation"
+        },
+        "response": "I'm sorry you're going through that. Let me know if you need anything.",
+        "response_time_seconds": 0.553,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": null
+      }
+    },
+    {
+      "id": "TEMP_001",
+      "category": "vehicle_command",
+      "emotion": "angry",
+      "message": "Set the temperature to 24 degrees.",
+      "baseline": {
+        "mode": "Baseline",
+        "predicted_intent": "set_temperature",
+        "command": {
+          "intent": "set_temperature",
+          "temperature": 24
+        },
+        "response": "Temperature set to 24\u00b0C.",
+        "response_time_seconds": 0.299,
+        "vehicle_state": {
+          "temperature": 24,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": {
+          "intent_correct": true,
+          "temperature_correct": true
+        }
+      },
+      "emotion_aware": {
+        "mode": "Emotion-Aware",
+        "predicted_intent": "set_temperature",
+        "command": {
+          "intent": "set_temperature",
+          "temperature": 24
+        },
+        "response": "Temperature set to 24\u00b0C.",
+        "response_time_seconds": 0.224,
+        "vehicle_state": {
+          "temperature": 24,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": {
+          "intent_correct": true,
+          "temperature_correct": true
+        }
+      }
+    },
+    {
+      "id": "TEMP_002",
+      "category": "vehicle_command",
+      "emotion": "neutral",
+      "message": "Make the cabin 20 degrees.",
+      "baseline": {
+        "mode": "Baseline",
+        "predicted_intent": "set_temperature",
+        "command": {
+          "intent": "set_temperature",
+          "temperature": 20
+        },
+        "response": "Temperature set to 20\u00b0C.",
+        "response_time_seconds": 0.241,
+        "vehicle_state": {
+          "temperature": 20,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": {
+          "intent_correct": true,
+          "temperature_correct": true
+        }
+      },
+      "emotion_aware": {
+        "mode": "Emotion-Aware",
+        "predicted_intent": "set_temperature",
+        "command": {
+          "intent": "set_temperature",
+          "temperature": 20
+        },
+        "response": "Temperature set to 20\u00b0C.",
+        "response_time_seconds": 0.23,
+        "vehicle_state": {
+          "temperature": 20,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": {
+          "intent_correct": true,
+          "temperature_correct": true
+        }
+      }
+    },
+    {
+      "id": "TEMP_003",
+      "category": "vehicle_command",
+      "emotion": "sad",
+      "message": "Please make it warmer.",
+      "baseline": {
+        "mode": "Baseline",
+        "predicted_intent": "adjust_temperature",
+        "command": {
+          "intent": "adjust_temperature",
+          "direction": "increase"
+        },
+        "response": "Temperature increased to 24\u00b0C.",
+        "response_time_seconds": 0.222,
+        "vehicle_state": {
+          "temperature": 24,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": {
+          "intent_correct": true
+        }
+      },
+      "emotion_aware": {
+        "mode": "Emotion-Aware",
+        "predicted_intent": "adjust_temperature",
+        "command": {
+          "intent": "adjust_temperature",
+          "direction": "increase"
+        },
+        "response": "Temperature increased to 24\u00b0C.",
+        "response_time_seconds": 0.213,
+        "vehicle_state": {
+          "temperature": 24,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": {
+          "intent_correct": true
+        }
+      }
+    },
+    {
+      "id": "TEMP_004",
+      "category": "vehicle_command",
+      "emotion": "happy",
+      "message": "It's too hot in here.",
+      "baseline": {
+        "mode": "Baseline",
+        "predicted_intent": "adjust_temperature",
+        "command": {
+          "intent": "adjust_temperature",
+          "direction": "decrease"
+        },
+        "response": "Temperature decreased to 20\u00b0C.",
+        "response_time_seconds": 0.259,
+        "vehicle_state": {
+          "temperature": 20,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": {
+          "intent_correct": true
+        }
+      },
+      "emotion_aware": {
+        "mode": "Emotion-Aware",
+        "predicted_intent": "adjust_temperature",
+        "command": {
+          "intent": "adjust_temperature",
+          "direction": "decrease"
+        },
+        "response": "Temperature decreased to 20\u00b0C.",
+        "response_time_seconds": 0.24,
+        "vehicle_state": {
+          "temperature": 20,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": {
+          "intent_correct": true
+        }
+      }
+    },
+    {
+      "id": "TEMP_005",
+      "category": "vehicle_command",
+      "emotion": "neutral",
+      "message": "What is the cabin temperature?",
+      "baseline": {
+        "mode": "Baseline",
+        "predicted_intent": "get_temperature",
+        "command": {
+          "intent": "get_temperature"
+        },
+        "response": "The cabin temperature is 22\u00b0C.",
+        "response_time_seconds": 0.147,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": {
+          "intent_correct": true
+        }
+      },
+      "emotion_aware": {
+        "mode": "Emotion-Aware",
+        "predicted_intent": "get_temperature",
+        "command": {
+          "intent": "get_temperature"
+        },
+        "response": "The cabin temperature is 22\u00b0C.",
+        "response_time_seconds": 0.135,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": {
+          "intent_correct": true
+        }
+      }
+    },
+    {
+      "id": "MUSIC_001",
+      "category": "vehicle_command",
+      "emotion": "happy",
+      "message": "Play some music.",
+      "baseline": {
+        "mode": "Baseline",
+        "predicted_intent": "play_music",
+        "command": {
+          "intent": "play_music"
+        },
+        "response": "Playing default music.",
+        "response_time_seconds": 0.155,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Playing",
+          "music_category": "Default",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": {
+          "intent_correct": true
+        }
+      },
+      "emotion_aware": {
+        "mode": "Emotion-Aware",
+        "predicted_intent": "play_music",
+        "command": {
+          "intent": "play_music"
+        },
+        "response": "Playing upbeat music.",
+        "response_time_seconds": 0.144,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Playing",
+          "music_category": "Upbeat",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": {
+          "intent_correct": true
+        }
+      }
+    },
+    {
+      "id": "MUSIC_002",
+      "category": "vehicle_command",
+      "emotion": "angry",
+      "message": "Put some music on.",
+      "baseline": {
+        "mode": "Baseline",
+        "predicted_intent": "play_music",
+        "command": {
+          "intent": "play_music"
+        },
+        "response": "Playing default music.",
+        "response_time_seconds": 0.164,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Playing",
+          "music_category": "Default",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": {
+          "intent_correct": true
+        }
+      },
+      "emotion_aware": {
+        "mode": "Emotion-Aware",
+        "predicted_intent": "play_music",
+        "command": {
+          "intent": "play_music"
+        },
+        "response": "Playing calm music.",
+        "response_time_seconds": 0.133,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Playing",
+          "music_category": "Calm",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": {
+          "intent_correct": true
+        }
+      }
+    },
+    {
+      "id": "MUSIC_003",
+      "category": "vehicle_command",
+      "emotion": "neutral",
+      "message": "Pause the music.",
+      "baseline": {
+        "mode": "Baseline",
+        "predicted_intent": "pause_music",
+        "command": {
+          "intent": "pause_music"
+        },
+        "response": "Music is already paused.",
+        "response_time_seconds": 0.143,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": {
+          "intent_correct": true
+        }
+      },
+      "emotion_aware": {
+        "mode": "Emotion-Aware",
+        "predicted_intent": "pause_music",
+        "command": {
+          "intent": "pause_music"
+        },
+        "response": "Music is already paused.",
+        "response_time_seconds": 0.138,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": {
+          "intent_correct": true
+        }
+      }
+    },
+    {
+      "id": "MUSIC_004",
+      "category": "vehicle_command",
+      "emotion": "neutral",
+      "message": "Resume the music.",
+      "baseline": {
+        "mode": "Baseline",
+        "predicted_intent": "resume_music",
+        "command": {
+          "intent": "resume_music"
+        },
+        "response": "There is no paused music to resume.",
+        "response_time_seconds": 0.16,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": {
+          "intent_correct": true
+        }
+      },
+      "emotion_aware": {
+        "mode": "Emotion-Aware",
+        "predicted_intent": "resume_music",
+        "command": {
+          "intent": "resume_music"
+        },
+        "response": "There is no paused music to resume.",
+        "response_time_seconds": 0.133,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": {
+          "intent_correct": true
+        }
+      }
+    },
+    {
+      "id": "MUSIC_005",
+      "category": "vehicle_command",
+      "emotion": "neutral",
+      "message": "Is music playing?",
+      "baseline": {
+        "mode": "Baseline",
+        "predicted_intent": "get_music_status",
+        "command": {
+          "intent": "get_music_status"
+        },
+        "response": "Music is currently paused.",
+        "response_time_seconds": 0.16,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": {
+          "intent_correct": true
+        }
+      },
+      "emotion_aware": {
+        "mode": "Emotion-Aware",
+        "predicted_intent": "get_music_status",
+        "command": {
+          "intent": "get_music_status"
+        },
+        "response": "Music is currently paused.",
+        "response_time_seconds": 0.156,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": {
+          "intent_correct": true
+        }
+      }
+    },
+    {
+      "id": "NAV_001",
+      "category": "vehicle_command",
+      "emotion": "neutral",
+      "message": "Take me home.",
+      "baseline": {
+        "mode": "Baseline",
+        "predicted_intent": "navigate_home",
+        "command": {
+          "intent": "navigate_home"
+        },
+        "response": "Starting navigation to Home.",
+        "response_time_seconds": 0.145,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "Home",
+          "navigation_active": true,
+          "fuel_level": 62
+        },
+        "functional_checks": {
+          "intent_correct": true
+        }
+      },
+      "emotion_aware": {
+        "mode": "Emotion-Aware",
+        "predicted_intent": "navigate_home",
+        "command": {
+          "intent": "navigate_home"
+        },
+        "response": "Starting navigation to Home.",
+        "response_time_seconds": 0.132,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "Home",
+          "navigation_active": true,
+          "fuel_level": 62
+        },
+        "functional_checks": {
+          "intent_correct": true
+        }
+      }
+    },
+    {
+      "id": "NAV_002",
+      "category": "vehicle_command",
+      "emotion": "fear",
+      "message": "Navigate to the University of Birmingham.",
+      "baseline": {
+        "mode": "Baseline",
+        "predicted_intent": "navigate_to",
+        "command": {
+          "intent": "navigate_to",
+          "destination": "University of Birmingham"
+        },
+        "response": "Starting navigation to University of Birmingham.",
+        "response_time_seconds": 0.248,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "University of Birmingham",
+          "navigation_active": true,
+          "fuel_level": 62
+        },
+        "functional_checks": {
+          "intent_correct": true,
+          "destination_correct": true
+        }
+      },
+      "emotion_aware": {
+        "mode": "Emotion-Aware",
+        "predicted_intent": "navigate_to",
+        "command": {
+          "intent": "navigate_to",
+          "destination": "University of Birmingham"
+        },
+        "response": "Starting navigation to University of Birmingham.",
+        "response_time_seconds": 0.248,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "University of Birmingham",
+          "navigation_active": true,
+          "fuel_level": 62
+        },
+        "functional_checks": {
+          "intent_correct": true,
+          "destination_correct": true
+        }
+      }
+    },
+    {
+      "id": "NAV_003",
+      "category": "vehicle_command",
+      "emotion": "neutral",
+      "message": "Take me to New Street Station.",
+      "baseline": {
+        "mode": "Baseline",
+        "predicted_intent": "navigate_to",
+        "command": {
+          "intent": "navigate_to",
+          "destination": "New Street Station"
+        },
+        "response": "Starting navigation to New Street Station.",
+        "response_time_seconds": 0.281,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "New Street Station",
+          "navigation_active": true,
+          "fuel_level": 62
+        },
+        "functional_checks": {
+          "intent_correct": true,
+          "destination_correct": true
+        }
+      },
+      "emotion_aware": {
+        "mode": "Emotion-Aware",
+        "predicted_intent": "navigate_to",
+        "command": {
+          "intent": "navigate_to",
+          "destination": "New Street Station"
+        },
+        "response": "Starting navigation to New Street Station.",
+        "response_time_seconds": 0.238,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "New Street Station",
+          "navigation_active": true,
+          "fuel_level": 62
+        },
+        "functional_checks": {
+          "intent_correct": true,
+          "destination_correct": true
+        }
+      }
+    },
+    {
+      "id": "NAV_004",
+      "category": "vehicle_command",
+      "emotion": "neutral",
+      "message": "Cancel navigation.",
+      "baseline": {
+        "mode": "Baseline",
+        "predicted_intent": "cancel_navigation",
+        "command": {
+          "intent": "cancel_navigation"
+        },
+        "response": "Navigation is not currently active.",
+        "response_time_seconds": 0.173,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": {
+          "intent_correct": true
+        }
+      },
+      "emotion_aware": {
+        "mode": "Emotion-Aware",
+        "predicted_intent": "cancel_navigation",
+        "command": {
+          "intent": "cancel_navigation"
+        },
+        "response": "Navigation is not currently active.",
+        "response_time_seconds": 0.132,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": {
+          "intent_correct": true
+        }
+      }
+    },
+    {
+      "id": "NAV_005",
+      "category": "vehicle_command",
+      "emotion": "neutral",
+      "message": "Is navigation active?",
+      "baseline": {
+        "mode": "Baseline",
+        "predicted_intent": "get_navigation_status",
+        "command": {
+          "intent": "get_navigation_status"
+        },
+        "response": "Navigation is currently inactive.",
+        "response_time_seconds": 0.158,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": {
+          "intent_correct": true
+        }
+      },
+      "emotion_aware": {
+        "mode": "Emotion-Aware",
+        "predicted_intent": "get_navigation_status",
+        "command": {
+          "intent": "get_navigation_status"
+        },
+        "response": "Navigation is currently inactive.",
+        "response_time_seconds": 0.153,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": {
+          "intent_correct": true
+        }
+      }
+    },
+    {
+      "id": "NAV_006",
+      "category": "vehicle_command",
+      "emotion": "neutral",
+      "message": "What is my current destination?",
+      "baseline": {
+        "mode": "Baseline",
+        "predicted_intent": "get_destination",
+        "command": {
+          "intent": "get_destination"
+        },
+        "response": "There is currently no active destination.",
+        "response_time_seconds": 0.148,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": {
+          "intent_correct": true
+        }
+      },
+      "emotion_aware": {
+        "mode": "Emotion-Aware",
+        "predicted_intent": "get_destination",
+        "command": {
+          "intent": "get_destination"
+        },
+        "response": "There is currently no active destination.",
+        "response_time_seconds": 0.148,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": {
+          "intent_correct": true
+        }
+      }
+    },
+    {
+      "id": "STATE_001",
+      "category": "vehicle_command",
+      "emotion": "neutral",
+      "message": "What is my fuel level?",
+      "baseline": {
+        "mode": "Baseline",
+        "predicted_intent": "get_fuel_level",
+        "command": {
+          "intent": "get_fuel_level"
+        },
+        "response": "Your current fuel level is 62%.",
+        "response_time_seconds": 0.187,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": {
+          "intent_correct": true
+        }
+      },
+      "emotion_aware": {
+        "mode": "Emotion-Aware",
+        "predicted_intent": "get_fuel_level",
+        "command": {
+          "intent": "get_fuel_level"
+        },
+        "response": "Your current fuel level is 62%.",
+        "response_time_seconds": 0.162,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": {
+          "intent_correct": true
+        }
+      }
+    },
+    {
+      "id": "STATE_002",
+      "category": "vehicle_command",
+      "emotion": "neutral",
+      "message": "How much fuel do I have left?",
+      "baseline": {
+        "mode": "Baseline",
+        "predicted_intent": "get_fuel_level",
+        "command": {
+          "intent": "get_fuel_level"
+        },
+        "response": "Your current fuel level is 62%.",
+        "response_time_seconds": 0.181,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": {
+          "intent_correct": true
+        }
+      },
+      "emotion_aware": {
+        "mode": "Emotion-Aware",
+        "predicted_intent": "get_fuel_level",
+        "command": {
+          "intent": "get_fuel_level"
+        },
+        "response": "Your current fuel level is 62%.",
+        "response_time_seconds": 0.165,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": {
+          "intent_correct": true
+        }
+      }
+    },
+    {
+      "id": "STATE_003",
+      "category": "vehicle_command",
+      "emotion": "neutral",
+      "message": "What temperature is it in here?",
+      "baseline": {
+        "mode": "Baseline",
+        "predicted_intent": "get_temperature",
+        "command": {
+          "intent": "get_temperature"
+        },
+        "response": "The cabin temperature is 22\u00b0C.",
+        "response_time_seconds": 0.146,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": {
+          "intent_correct": true
+        }
+      },
+      "emotion_aware": {
+        "mode": "Emotion-Aware",
+        "predicted_intent": "get_temperature",
+        "command": {
+          "intent": "get_temperature"
+        },
+        "response": "The cabin temperature is 22\u00b0C.",
+        "response_time_seconds": 0.168,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": {
+          "intent_correct": true
+        }
+      }
+    },
+    {
+      "id": "UNKNOWN_001",
+      "category": "unsupported",
+      "emotion": "neutral",
+      "message": "Open the sunroof.",
+      "baseline": {
+        "mode": "Baseline",
+        "predicted_intent": "unknown",
+        "command": {
+          "intent": "unknown"
+        },
+        "response": "I can't assist with that request.",
+        "response_time_seconds": 0.386,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": null
+      },
+      "emotion_aware": {
+        "mode": "Emotion-Aware",
+        "predicted_intent": "unknown",
+        "command": {
+          "intent": "unknown"
+        },
+        "response": "Sunroof is currently closed. Opening it requires a key fob or manual override. I can't assist with that action.",
+        "response_time_seconds": 0.723,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": null
+      }
+    },
+    {
+      "id": "UNKNOWN_002",
+      "category": "unsupported",
+      "emotion": "neutral",
+      "message": "Turn on the heated steering wheel.",
+      "baseline": {
+        "mode": "Baseline",
+        "predicted_intent": "unknown",
+        "command": {
+          "intent": "unknown"
+        },
+        "response": "I can't control that function. Sorry.",
+        "response_time_seconds": 0.475,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": null
+      },
+      "emotion_aware": {
+        "mode": "Emotion-Aware",
+        "predicted_intent": "unknown",
+        "command": {
+          "intent": "unknown"
+        },
+        "response": "Heated steering wheel is not available in this vehicle.",
+        "response_time_seconds": 0.545,
+        "vehicle_state": {
+          "temperature": 22,
+          "music_status": "Paused",
+          "music_category": "None",
+          "destination": "None",
+          "navigation_active": false,
+          "fuel_level": 62
+        },
+        "functional_checks": null
+      }
+    }
+  ]
+}

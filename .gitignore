@@ -1,12 +1,16 @@
 # Virtual Environment
 .venv/
+venv/
 
 # Python
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
 
 # Environment Variables
 .env
+.env.*
 
 # VS Code
 .vscode/
@@ -16,3 +20,24 @@ __pycache__/
 
 # Database
 *.db
+
+# Raw Datasets
+datasets/
+data/CREMA-D/
+CREMA-D/
+AudioWAV/
+AudioMP3/
+VideoFlash/
+
+# Temporary / Recorded Audio
+*.webm
+*.tmp
+temp/
+tmp/
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

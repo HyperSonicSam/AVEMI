@@ -1,0 +1,220 @@
+[
+  {
+    "id": "CONV_001",
+    "category": "conversation",
+    "emotion": "angry",
+    "message": "This journey is really frustrating me."
+  },
+  {
+    "id": "CONV_002",
+    "category": "conversation",
+    "emotion": "angry",
+    "message": "Everything about this drive is annoying me."
+  },
+  {
+    "id": "CONV_003",
+    "category": "conversation",
+    "emotion": "sad",
+    "message": "I'm having a really difficult day."
+  },
+  {
+    "id": "CONV_004",
+    "category": "conversation",
+    "emotion": "sad",
+    "message": "I'm feeling pretty low today."
+  },
+  {
+    "id": "CONV_005",
+    "category": "conversation",
+    "emotion": "fear",
+    "message": "I'm feeling really nervous about this journey."
+  },
+  {
+    "id": "CONV_006",
+    "category": "conversation",
+    "emotion": "fear",
+    "message": "I'm a bit worried about driving right now."
+  },
+  {
+    "id": "CONV_007",
+    "category": "conversation",
+    "emotion": "happy",
+    "message": "I'm having such a great day today."
+  },
+  {
+    "id": "CONV_008",
+    "category": "conversation",
+    "emotion": "happy",
+    "message": "This has been a really good day."
+  },
+  {
+    "id": "CONV_009",
+    "category": "conversation",
+    "emotion": "neutral",
+    "message": "The journey is going fine."
+  },
+  {
+    "id": "CONV_010",
+    "category": "conversation",
+    "emotion": "disgust",
+    "message": "This situation is really unpleasant."
+  },
+
+  {
+    "id": "TEMP_001",
+    "category": "vehicle_command",
+    "emotion": "angry",
+    "message": "Set the temperature to 24 degrees.",
+    "expected_intent": "set_temperature",
+    "expected_temperature": 24
+  },
+  {
+    "id": "TEMP_002",
+    "category": "vehicle_command",
+    "emotion": "neutral",
+    "message": "Make the cabin 20 degrees.",
+    "expected_intent": "set_temperature",
+    "expected_temperature": 20
+  },
+  {
+    "id": "TEMP_003",
+    "category": "vehicle_command",
+    "emotion": "sad",
+    "message": "Please make it warmer.",
+    "expected_intent": "adjust_temperature",
+    "expected_direction": "increase"
+  },
+  {
+    "id": "TEMP_004",
+    "category": "vehicle_command",
+    "emotion": "happy",
+    "message": "It's too hot in here.",
+    "expected_intent": "adjust_temperature",
+    "expected_direction": "decrease"
+  },
+  {
+    "id": "TEMP_005",
+    "category": "vehicle_command",
+    "emotion": "neutral",
+    "message": "What is the cabin temperature?",
+    "expected_intent": "get_temperature"
+  },
+
+  {
+    "id": "MUSIC_001",
+    "category": "vehicle_command",
+    "emotion": "happy",
+    "message": "Play some music.",
+    "expected_intent": "play_music"
+  },
+  {
+    "id": "MUSIC_002",
+    "category": "vehicle_command",
+    "emotion": "angry",
+    "message": "Put some music on.",
+    "expected_intent": "play_music"
+  },
+  {
+    "id": "MUSIC_003",
+    "category": "vehicle_command",
+    "emotion": "neutral",
+    "message": "Pause the music.",
+    "expected_intent": "pause_music"
+  },
+  {
+    "id": "MUSIC_004",
+    "category": "vehicle_command",
+    "emotion": "neutral",
+    "message": "Resume the music.",
+    "expected_intent": "resume_music"
+  },
+  {
+    "id": "MUSIC_005",
+    "category": "vehicle_command",
+    "emotion": "neutral",
+    "message": "Is music playing?",
+    "expected_intent": "get_music_status"
+  },
+
+  {
+    "id": "NAV_001",
+    "category": "vehicle_command",
+    "emotion": "neutral",
+    "message": "Take me home.",
+    "expected_intent": "navigate_home"
+  },
+  {
+    "id": "NAV_002",
+    "category": "vehicle_command",
+    "emotion": "fear",
+    "message": "Navigate to the University of Birmingham.",
+    "expected_intent": "navigate_to",
+    "expected_destination": "University of Birmingham"
+  },
+  {
+    "id": "NAV_003",
+    "category": "vehicle_command",
+    "emotion": "neutral",
+    "message": "Take me to New Street Station.",
+    "expected_intent": "navigate_to",
+    "expected_destination": "New Street Station"
+  },
+  {
+    "id": "NAV_004",
+    "category": "vehicle_command",
+    "emotion": "neutral",
+    "message": "Cancel navigation.",
+    "expected_intent": "cancel_navigation"
+  },
+  {
+    "id": "NAV_005",
+    "category": "vehicle_command",
+    "emotion": "neutral",
+    "message": "Is navigation active?",
+    "expected_intent": "get_navigation_status"
+  },
+  {
+    "id": "NAV_006",
+    "category": "vehicle_command",
+    "emotion": "neutral",
+    "message": "What is my current destination?",
+    "expected_intent": "get_destination"
+  },
+
+  {
+    "id": "STATE_001",
+    "category": "vehicle_command",
+    "emotion": "neutral",
+    "message": "What is my fuel level?",
+    "expected_intent": "get_fuel_level"
+  },
+  {
+    "id": "STATE_002",
+    "category": "vehicle_command",
+    "emotion": "neutral",
+    "message": "How much fuel do I have left?",
+    "expected_intent": "get_fuel_level"
+  },
+  {
+    "id": "STATE_003",
+    "category": "vehicle_command",
+    "emotion": "neutral",
+    "message": "What temperature is it in here?",
+    "expected_intent": "get_temperature"
+  },
+
+  {
+    "id": "UNKNOWN_001",
+    "category": "unsupported",
+    "emotion": "neutral",
+    "message": "Open the sunroof.",
+    "expected_intent": "unknown"
+  },
+  {
+    "id": "UNKNOWN_002",
+    "category": "unsupported",
+    "emotion": "neutral",
+    "message": "Turn on the heated steering wheel.",
+    "expected_intent": "unknown"
+  }
+]

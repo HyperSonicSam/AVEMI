@@ -17,7 +17,7 @@ def transcribe_audio(audio_file):
     Convert recorded audio into text using faster-whisper.
 
     Args:
-        audio_file: Streamlit UploadedFile returned by st.audio_input()
+        audio_file: Raw WAV bytes or a Streamlit audio file object.
 
     Returns:
         str: Transcribed text.
