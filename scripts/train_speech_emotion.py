@@ -20,7 +20,9 @@ from tensorflow.keras import layers, models
 # Configuration
 # ---------------------------------------------------------
 
-METADATA_FILE = Path("data") / "crema_metadata.csv"
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+
+METADATA_FILE = PROJECT_ROOT / "data" / "crema_metadata.csv"
 
 CREMA_ROOT = Path(
     os.getenv(
@@ -45,7 +47,7 @@ TARGET_SAMPLES = int(
     SAMPLE_RATE * DURATION
 )
 
-MODEL_OUTPUT = Path("models") / "speech_emotion_cnn.keras"
+MODEL_OUTPUT = PROJECT_ROOT / "models" / "speech_emotion_cnn.keras"
 
 LABELS = [
     "angry",
@@ -81,15 +83,14 @@ def load_audio(audio_path):
                 TARGET_SAMPLES - len(audio)
             )
         )
-
-    elif len(audio) > TARGET_SAMPLES:
+    else:
         audio = audio[:TARGET_SAMPLES]
 
     return audio
 
 
-def create_log_mel(audio):
-    mel_spectrogram = librosa.feature.melspectrogram(
+def extract_features(audio):
+    mel = librosa.feature.melspectrogram(
         y=audio,
         sr=SAMPLE_RATE,
         n_fft=N_FFT,
@@ -99,194 +100,65 @@ def create_log_mel(audio):
     )
 
     log_mel = librosa.power_to_db(
-        mel_spectrogram,
+        mel,
         ref=np.max
     )
 
-    return log_mel
+    return log_mel.astype(np.float32)
 
 
-# ---------------------------------------------------------
-# Build NumPy dataset
-# ---------------------------------------------------------
-
-def build_split(df, split_name):
-    split_df = df[
-        df["split"] == split_name
-    ].reset_index(drop=True)
+def load_split(df, split_name):
+    split_df = df[df["split"] == split_name]
 
     features = []
     labels = []
 
-    total = len(split_df)
+    for _, row in split_df.iterrows():
+        audio_path = AUDIO_DIR / row["audio_path"]
 
-    print(
-        f"\nProcessing {split_name}: "
-        f"{total} samples"
-    )
+        audio = load_audio(audio_path)
+        feature = extract_features(audio)
 
-    for index, row in split_df.iterrows():
-
-        audio_path = (
-            AUDIO_DIR
-            / row["audio_path"]
-        )
-
-        audio = load_audio(
-            audio_path
-        )
-
-        log_mel = create_log_mel(
-            audio
-        )
-
-        features.append(
-            log_mel
-        )
-
+        features.append(feature)
         labels.append(
-            LABEL_TO_INDEX[
-                row["emotion"]
-            ]
+            LABEL_TO_INDEX[row["emotion"]]
         )
 
-        if (
-            (index + 1) % 250 == 0
-            or index + 1 == total
-        ):
-            print(
-                f"  {index + 1}/{total}"
-            )
-
-    X = np.array(
-        features,
-        dtype=np.float32
-    )
-
-    y = np.array(
-        labels,
-        dtype=np.int64
-    )
-
-    # Add CNN channel dimension
-    X = X[..., np.newaxis]
+    X = np.array(features)[..., np.newaxis]
+    y = np.array(labels)
 
     return X, y
 
 
 # ---------------------------------------------------------
-# Feature normalization
-# ---------------------------------------------------------
-
-def normalize_data(
-    X_train,
-    X_validation,
-    X_test
-):
-    mean = np.mean(X_train)
-    std = np.std(X_train)
-
-    print(
-        f"\nTraining feature mean: "
-        f"{mean:.4f}"
-    )
-
-    print(
-        f"Training feature std: "
-        f"{std:.4f}"
-    )
-
-    X_train = (
-        X_train - mean
-    ) / (std + 1e-8)
-
-    X_validation = (
-        X_validation - mean
-    ) / (std + 1e-8)
-
-    X_test = (
-        X_test - mean
-    ) / (std + 1e-8)
-
-    return (
-        X_train,
-        X_validation,
-        X_test
-    )
-
-
-# ---------------------------------------------------------
-# CNN model
+# Model
 # ---------------------------------------------------------
 
 def build_model(input_shape):
-    model = models.Sequential(
-        [
-            layers.Input(
-                shape=input_shape
-            ),
+    model = models.Sequential([
+        layers.Input(shape=input_shape),
 
-            layers.Conv2D(
-                32,
-                kernel_size=(3, 3),
-                activation="relu",
-                padding="same"
-            ),
+        layers.Conv2D(32, (3, 3), activation="relu", padding="same"),
+        layers.BatchNormalization(),
+        layers.MaxPooling2D((2, 2)),
 
-            layers.BatchNormalization(),
+        layers.Conv2D(64, (3, 3), activation="relu", padding="same"),
+        layers.BatchNormalization(),
+        layers.MaxPooling2D((2, 2)),
 
-            layers.MaxPooling2D(
-                pool_size=(2, 2)
-            ),
+        layers.Conv2D(128, (3, 3), activation="relu", padding="same"),
+        layers.BatchNormalization(),
+        layers.MaxPooling2D((2, 2)),
 
-            layers.Conv2D(
-                64,
-                kernel_size=(3, 3),
-                activation="relu",
-                padding="same"
-            ),
-
-            layers.BatchNormalization(),
-
-            layers.MaxPooling2D(
-                pool_size=(2, 2)
-            ),
-
-            layers.Conv2D(
-                128,
-                kernel_size=(3, 3),
-                activation="relu",
-                padding="same"
-            ),
-
-            layers.BatchNormalization(),
-
-            layers.MaxPooling2D(
-                pool_size=(2, 2)
-            ),
-
-            layers.GlobalAveragePooling2D(),
-
-            layers.Dropout(0.35),
-
-            layers.Dense(
-                128,
-                activation="relu"
-            ),
-
-            layers.Dropout(0.30),
-
-            layers.Dense(
-                len(LABELS),
-                activation="softmax"
-            )
-        ]
-    )
+        layers.GlobalAveragePooling2D(),
+        layers.Dropout(0.35),
+        layers.Dense(128, activation="relu"),
+        layers.Dropout(0.25),
+        layers.Dense(len(LABELS), activation="softmax")
+    ])
 
     model.compile(
-        optimizer=tf.keras.optimizers.Adam(
-            learning_rate=0.001
-        ),
+        optimizer=tf.keras.optimizers.Adam(learning_rate=0.001),
         loss="sparse_categorical_crossentropy",
         metrics=["accuracy"]
     )
@@ -295,14 +167,60 @@ def build_model(input_shape):
 
 
 # ---------------------------------------------------------
-# Evaluation
+# Main
 # ---------------------------------------------------------
 
-def evaluate_model(
-    model,
-    X_test,
-    y_test
-):
+def main():
+    if not METADATA_FILE.exists():
+        raise FileNotFoundError(
+            f"Metadata file not found: {METADATA_FILE}\n"
+            "Run scripts/prepare_crema.py first."
+        )
+
+    if not AUDIO_DIR.exists():
+        raise FileNotFoundError(
+            "CREMA-D AudioWAV directory not found:\n"
+            f"{AUDIO_DIR}\n\n"
+            "Set the CREMA_ROOT environment variable to your local CREMA-D "
+            "directory and run the script again."
+        )
+
+    df = pd.read_csv(METADATA_FILE)
+
+    print("Loading training split...")
+    X_train, y_train = load_split(df, "train")
+
+    print("Loading validation split...")
+    X_val, y_val = load_split(df, "validation")
+
+    print("Loading test split...")
+    X_test, y_test = load_split(df, "test")
+
+    model = build_model(X_train.shape[1:])
+
+    callbacks = [
+        tf.keras.callbacks.EarlyStopping(
+            monitor="val_loss",
+            patience=6,
+            restore_best_weights=True
+        ),
+        tf.keras.callbacks.ReduceLROnPlateau(
+            monitor="val_loss",
+            factor=0.5,
+            patience=3,
+            min_lr=1e-6
+        )
+    ]
+
+    model.fit(
+        X_train,
+        y_train,
+        validation_data=(X_val, y_val),
+        epochs=40,
+        batch_size=32,
+        callbacks=callbacks
+    )
+
     probabilities = model.predict(
         X_test,
         verbose=0
@@ -324,20 +242,17 @@ def evaluate_model(
         average="macro"
     )
 
-    print(
-        f"\nTest accuracy: "
-        f"{accuracy:.4f}"
+    weighted_f1 = f1_score(
+        y_test,
+        predictions,
+        average="weighted"
     )
 
-    print(
-        f"Test macro F1: "
-        f"{macro_f1:.4f}"
-    )
+    print("\nTest accuracy:", accuracy)
+    print("Macro F1:", macro_f1)
+    print("Weighted F1:", weighted_f1)
 
-    print(
-        "\nClassification report:\n"
-    )
-
+    print("\nClassification report:\n")
     print(
         classification_report(
             y_test,
@@ -347,10 +262,7 @@ def evaluate_model(
         )
     )
 
-    print(
-        "Confusion matrix:\n"
-    )
-
+    print("\nConfusion matrix:\n")
     print(
         confusion_matrix(
             y_test,
@@ -358,129 +270,14 @@ def evaluate_model(
         )
     )
 
-
-# ---------------------------------------------------------
-# Main
-# ---------------------------------------------------------
-
-def main():
-    if not METADATA_FILE.exists():
-        raise FileNotFoundError(
-            f"Metadata file not found:\n"
-            f"{METADATA_FILE}"
-        )
-
-    df = pd.read_csv(
-        METADATA_FILE
-    )
-
-    print(
-        "Building CREMA-D speech dataset..."
-    )
-
-    X_train, y_train = build_split(
-        df,
-        "train"
-    )
-
-    X_validation, y_validation = (
-        build_split(
-            df,
-            "validation"
-        )
-    )
-
-    X_test, y_test = build_split(
-        df,
-        "test"
-    )
-
-    print(
-        "\nDataset shapes:"
-    )
-
-    print(
-        f"Train: "
-        f"{X_train.shape}, {y_train.shape}"
-    )
-
-    print(
-        f"Validation: "
-        f"{X_validation.shape}, "
-        f"{y_validation.shape}"
-    )
-
-    print(
-        f"Test: "
-        f"{X_test.shape}, {y_test.shape}"
-    )
-
-    (
-        X_train,
-        X_validation,
-        X_test
-    ) = normalize_data(
-        X_train,
-        X_validation,
-        X_test
-    )
-
-    model = build_model(
-        X_train.shape[1:]
-    )
-
-    model.summary()
-
-    callbacks = [
-        tf.keras.callbacks.EarlyStopping(
-            monitor="val_loss",
-            patience=5,
-            restore_best_weights=True
-        ),
-
-        tf.keras.callbacks.ReduceLROnPlateau(
-            monitor="val_loss",
-            factor=0.5,
-            patience=2,
-            min_lr=1e-6
-        )
-    ]
-
-    print(
-        "\nStarting training..."
-    )
-
-    model.fit(
-        X_train,
-        y_train,
-        validation_data=(
-            X_validation,
-            y_validation
-        ),
-        epochs=30,
-        batch_size=32,
-        callbacks=callbacks
-    )
-
     MODEL_OUTPUT.parent.mkdir(
         parents=True,
         exist_ok=True
     )
 
-    model.save(
-        MODEL_OUTPUT
-    )
+    model.save(MODEL_OUTPUT)
 
-    print(
-        f"\nModel saved to: "
-        f"{MODEL_OUTPUT.resolve()}"
-    )
-
-    evaluate_model(
-        model,
-        X_test,
-        y_test
-    )
+    print(f"\nModel saved to: {MODEL_OUTPUT}")
 
 
 if __name__ == "__main__":
