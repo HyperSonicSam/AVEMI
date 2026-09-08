@@ -1,86 +1,63 @@
 # AVEMI
 
-**Affective Vehicle Emotion-aware Multimodal Intelligence**
+**Affective Vehicle Emotion-Aware Multimodal Intelligence**
 
-AVEMI is an emotion-aware in-vehicle conversational assistant developed as part of an MSc Artificial Intelligence and Machine Learning project at the University of Birmingham.
+AVEMI is an experimental emotion-aware in-vehicle conversational assistant developed as an MSc Artificial Intelligence and Machine Learning project at the University of Birmingham.
 
-The project investigates how driver emotional context can be incorporated into an in-vehicle conversational assistant while maintaining reliable and deterministic vehicle-related actions.
+It explores a simple question: **can estimated emotional context make an in-vehicle assistant more context-aware without sacrificing predictable vehicle functionality?**
 
----
+The prototype combines local speech recognition, speech emotion recognition, local LLM-based conversation, text-to-speech and deterministic simulated vehicle controls in a single Streamlit application.
 
-## Current Features
-
-- Local conversational AI using Qwen through Ollama
-- Baseline and Emotion-Aware operating modes
-- Natural-language command interpretation
-- Deterministic vehicle action execution
-- Simulated vehicle-state management
-- Climate control interaction
-- Music playback, pause, and resume controls
-- Navigation and destination management
-- Vehicle-state queries
-- Text-based interaction
-- Voice input using Faster-Whisper
-- Voice output using Piper TTS
-- Speech emotion recognition using a CNN trained on CREMA-D
-- Automatic integration of detected speech emotion into the assistant
-- Interactive Streamlit dashboard
-- Animated AVEMI HUD interface
+> **Project status:** Research prototype / proof of concept. AVEMI is not a production vehicle-control system and has not been validated for safety-critical use.
 
 ---
 
-## System Overview
+## Highlights
 
-AVEMI separates conversational reasoning, emotion recognition, and vehicle-control logic.
-
-User input can be provided through text or speech. Spoken input is transcribed using Faster-Whisper and analysed by the speech emotion recognition component.
-
-Natural-language requests are interpreted into structured commands. Supported vehicle actions and factual vehicle-state queries are handled deterministically, while general conversational requests are processed by the local language model.
-
-In Emotion-Aware mode, emotional context is incorporated into the conversational pipeline so that responses can adapt to the driver's emotional state.
-
-This architecture allows emotional adaptation while reducing the risk of language-model hallucination affecting vehicle-related operations.
+- Fully local conversational AI using **Qwen3 4B through Ollama**
+- **Baseline** and **Emotion-Aware** operating modes for comparison
+- Voice input using **Faster-Whisper**
+- Voice output using **Piper TTS**
+- Six-class speech emotion recognition using a **CNN trained on CREMA-D**
+- Log-Mel spectrogram acoustic features
+- Deterministic handling of supported vehicle actions and state queries
+- Simulated climate, music, navigation and vehicle-state functionality
+- Streamlit dashboard with an animated AVEMI HUD
+- Separation between generative conversation and vehicle-state control
 
 ---
 
-## Vehicle State
+## Architecture
 
-The prototype simulates several vehicle properties:
+AVEMI separates the system into three principal pathways:
 
-- Cabin temperature
-- Fuel level
-- Music status
-- Music category
-- Navigation state
-- Destination
+1. **Acoustic pathway** — recorded speech is converted to a standard audio representation and analysed by the speech emotion recognition model.
+2. **Conversational pathway** — transcribed or typed requests can be processed by Qwen through Ollama, with estimated emotional context supplied in Emotion-Aware mode.
+3. **Deterministic vehicle pathway** — supported vehicle actions and state queries are handled by application logic rather than unrestricted LLM generation.
 
-These states are updated dynamically as AVEMI executes supported commands.
+This separation allows emotional context to influence interaction while preventing an estimated emotion from overriding an explicit vehicle command or allowing the LLM to directly control the simulated vehicle state.
 
 ---
 
 ## Emotion-Aware Interaction
 
-AVEMI supports two operating modes.
+AVEMI supports two configurations:
 
 ### Baseline
 
-The assistant processes requests without using driver emotional context for response adaptation.
+The assistant processes the interaction without supplying the separately estimated speech-emotion state to the conversational adaptation layer.
 
 ### Emotion-Aware
 
-Driver emotional context is incorporated into the assistant's conversational response generation.
+The estimated emotional state can influence conversational style and selected context-sensitive behaviour. For example, a generic music request can select a different music category according to the supplied emotional context while retaining the same underlying `play_music` intent.
 
-The interface also provides simulated emotion controls for controlled demonstrations and comparisons.
-
-For voice interaction, AVEMI can automatically estimate emotion from recorded speech using the trained speech emotion recognition model.
+AVEMI treats emotion predictions as **uncertain contextual information**, not objective measurements of how a user actually feels.
 
 ---
 
 ## Speech Emotion Recognition
 
-AVEMI includes a speech emotion recognition (SER) component trained using the CREMA-D dataset.
-
-The current model recognises six emotion classes:
+The SER component was trained on **CREMA-D**, which contains 7,442 recordings from 91 actors. The implementation predicts six classes:
 
 - Angry
 - Disgust
@@ -89,56 +66,53 @@ The current model recognises six emotion classes:
 - Neutral
 - Sad
 
-Audio is converted into fixed-size log-Mel spectrogram representations before being processed by a convolutional neural network (CNN).
+Audio is represented as fixed-size log-Mel spectrograms and classified using a convolutional neural network.
 
-### Dataset
+### Actor-independent split
 
-CREMA-D contains 7,442 speech samples from 91 actors.
+| Split | Actors | Samples |
+| --- | ---: | ---: |
+| Training | 73 | 5,967 |
+| Validation | 9 | 737 |
+| Test | 9 | 738 |
 
-An actor-independent split is used to reduce speaker leakage:
+No actor appears across multiple splits.
 
-- Training: 73 actors / 5,967 samples
-- Validation: 9 actors / 737 samples
-- Test: 9 actors / 738 samples
+### Test performance
 
-No actor appears across multiple dataset splits.
+| Metric | Result |
+| --- | ---: |
+| Accuracy | **52.17%** |
+| Macro F1 | **0.5082** |
+| Weighted F1 | **0.5066** |
 
-### Current Test Performance
-
-The trained SER model achieved:
-
-- Test accuracy: **52.17%**
-- Macro F1-score: **0.5082**
-- Weighted F1-score: **0.5066**
-
-Detailed evaluation results and the confusion matrix are stored in the `evaluation/ser` directory.
+The results indicate moderate recognition capability rather than production-grade emotion detection. Performance also varies substantially by emotional class. Detailed evaluation outputs are available under `evaluation/ser/`.
 
 ---
 
-## Voice Interaction
+## Integrated Evaluation
 
-AVEMI supports two-way voice interaction.
+The complete prototype was evaluated using **31 predefined interaction cases**.
 
-### Speech-to-Text
+- **19/19 tested vehicle-related intents** were correctly identified.
+- **2/2 tested unsupported vehicle operations** were correctly rejected.
+- Emotion-aware context produced observable changes in selected conversational responses and context-sensitive behaviour.
 
-Voice input is transcribed locally using Faster-Whisper.
+These figures describe the defined evaluation set only. They are **not evidence of universal reliability, real-vehicle safety, or statistically validated improvements in perceived interaction quality**. The project did not include a formal human-participant study.
 
-### Speech Emotion Recognition
+---
 
-Recorded speech is processed by the trained SER model to estimate the driver's emotional state and associated confidence.
+## Simulated Vehicle Functionality
 
-### Text-to-Speech
+The prototype maintains state for representative in-vehicle functions including:
 
-Assistant responses are converted to speech using Piper TTS.
+- Cabin temperature
+- Fuel level
+- Music playback and category
+- Navigation status
+- Destination
 
-The interface uses a push-to-record microphone control:
-
-1. Press the microphone button to begin recording.
-2. Press again to stop recording.
-3. The recorded speech is transcribed.
-4. Speech emotion is estimated.
-5. The transcribed request is submitted to AVEMI.
-6. In Emotion-Aware mode, the detected emotional context can influence the conversational response.
+Explicit supported operations are routed through deterministic application logic. Open-ended conversation is handled separately by the local language model.
 
 ---
 
@@ -146,7 +120,7 @@ The interface uses a push-to-record microphone control:
 
 - Python
 - Streamlit
-- Qwen
+- Qwen3 4B
 - Ollama
 - Faster-Whisper
 - Piper TTS
@@ -166,127 +140,117 @@ The interface uses a push-to-record microphone control:
 
 ```text
 AVEMI/
-|
-|-- app.py
-|-- requirements.txt
-|-- README.md
-|
-|-- data/
-|   |-- crema_metadata.csv
-|   `-- README.md
-|
-|-- models/
-|   |-- speech_emotion_cnn.keras
-|   `-- speech_emotion_config.json
-|
-|-- src/
-|   |-- emotion/
-|   |   |-- emotion_manager.py
-|   |   `-- speech_emotion_recognizer.py
-|   |
-|   |-- intents/
-|   |   `-- intent_router.py
-|   |
-|   |-- llm/
-|   |   |-- command_parser.py
-|   |   |-- ollama_client.py
-|   |   `-- prompt_builder.py
-|   |
-|   |-- speech/
-|   |   |-- speech_to_text.py
-|   |   `-- text_to_speech.py
-|   |
-|   `-- vehicle/
-|       `-- action_manager.py
-|
-|-- scripts/
-|   |-- prepare_crema.py
-|   |-- test_speech_emotion.py
-|   `-- evaluate_speech_emotion.py
-|
-`-- evaluation/
-    `-- ser/
-        |-- ser_results.json
-        `-- ser_confusion_matrix.png
+├── app.py
+├── requirements.txt
+├── README.md
+├── data/
+│   ├── crema_metadata.csv
+│   ├── emotion_profiles.json
+│   └── README.md
+├── models/
+│   ├── speech_emotion_cnn.keras
+│   └── speech_emotion_config.json
+├── src/
+│   ├── emotion/
+│   ├── intents/
+│   ├── llm/
+│   ├── speech/
+│   └── vehicle/
+├── scripts/
+└── evaluation/
+    └── ser/
 ```
 
----
-
-## Dataset Setup
-
-The raw CREMA-D dataset is not included in this repository.
-
-The project uses the `AudioWAV` portion of CREMA-D.
-
-Dataset metadata and the fixed actor-independent train/validation/test split are stored in:
-
-```text
-data/crema_metadata.csv
-```
-
-The location of the local CREMA-D dataset can be configured using the `CREMA_ROOT` environment variable.
-
-Further information is provided in:
-
-```text
-data/README.md
-```
+The raw CREMA-D media files and local Piper voice model are intentionally not included in the repository.
 
 ---
 
 ## Installation
 
-Create and activate a Python virtual environment.
+### 1. Clone the repository
 
-Install the Python dependencies:
+```bash
+git clone https://github.com/HyperSonicSam/AVEMI.git
+cd AVEMI
+```
+
+### 2. Create a virtual environment
+
+```bash
+python -m venv .venv
+```
+
+Activate it on Windows:
+
+```bash
+.venv\Scripts\activate
+```
+
+On macOS/Linux:
+
+```bash
+source .venv/bin/activate
+```
+
+### 3. Install Python dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-FFmpeg must also be installed separately and available from the system command line.
+### 4. Install external components
 
-Verify the installation with:
+AVEMI also requires:
+
+- **FFmpeg**, available from the command line
+- **Ollama**, running locally with the required Qwen3 4B model
+- **Piper TTS** and a compatible local Piper voice model for spoken output
+
+Verify FFmpeg with:
 
 ```bash
 ffmpeg -version
 ```
 
-Ollama must be installed and running with the required Qwen model available locally.
+The Piper voice model is deliberately excluded from Git because it is a large runtime asset. Configure/download the required Piper voice locally before enabling TTS.
+
+---
+
+## Dataset Setup
+
+The raw **CREMA-D** dataset is not redistributed in this repository.
+
+The project uses its `AudioWAV` recordings. Dataset metadata and the fixed actor-independent train/validation/test split are retained in:
+
+```text
+data/crema_metadata.csv
+```
+
+The local dataset location can be configured using the `CREMA_ROOT` environment variable. See `data/README.md` for the project-specific setup.
 
 ---
 
 ## Running AVEMI
 
-Start the application with:
+With the dependencies and local models configured:
 
 ```bash
 streamlit run app.py
 ```
 
-The AVEMI dashboard will open in the browser.
+The Streamlit interface will then open in the browser.
 
 ---
 
-## Speech Emotion Evaluation
+## Evaluating the SER Model
 
-The trained speech emotion recognition model can be independently evaluated using:
+The trained speech emotion recognition model can be evaluated independently with:
 
 ```bash
 python scripts/evaluate_speech_emotion.py
 ```
 
-The evaluation calculates:
-
-- Test accuracy
-- Per-class precision
-- Per-class recall
-- Per-class F1-score
-- Macro F1-score
-- Weighted F1-score
-- Confusion matrix
-
-Evaluation outputs are saved under:
+Evaluation outputs are stored under:
 
 ```text
 evaluation/ser/
@@ -294,27 +258,33 @@ evaluation/ser/
 
 ---
 
-## Current Development Stage
+## Scope and Limitations
 
-The current AVEMI prototype provides an end-to-end implementation incorporating:
+AVEMI is **multimodal at the interaction level**: it supports text and speech interaction alongside simulated vehicle context. The implemented automatic emotion-recognition component itself is currently **speech-only**; it does not fuse facial, physiological or other affective modalities.
 
-- Local LLM-based conversation
-- Deterministic vehicle actions
-- Vehicle-state queries
-- Baseline and Emotion-Aware interaction modes
-- Speech-to-text
-- Text-to-speech
-- Automatic speech emotion recognition
-- Emotion-aware response adaptation
-- Interactive vehicle dashboard
-- Independent SER evaluation
+Important limitations include:
 
-The current automatic emotion-recognition implementation focuses on the **speech modality**. AVEMI retains a multimodal research architecture, while additional modalities such as visual driver-state recognition are outside the implemented scope of the current prototype.
+- Moderate SER accuracy and class-dependent performance
+- Training/evaluation on acted emotional speech rather than natural in-vehicle recordings
+- Simulated rather than physical vehicle functionality
+- Limited predefined system-level evaluation cases
+- No formal human-participant evaluation of perceived empathy or appropriateness
+
+Future work could investigate naturalistic in-vehicle speech, multimodal affect recognition, calibrated uncertainty handling, human evaluation and integration with a driving simulator or appropriately controlled vehicle interface.
 
 ---
 
-## Research Goal
+## Academic Context
 
-The broader research goal is to investigate whether incorporating driver emotional context can improve the appropriateness and usefulness of an in-vehicle conversational assistant compared with an emotion-agnostic baseline.
+AVEMI was developed as an MSc Artificial Intelligence and Machine Learning project at the **University of Birmingham**.
 
-The prototype provides the technical framework for comparing baseline and emotion-aware behaviour while separately evaluating the performance and limitations of automatic speech emotion recognition.
+The repository is maintained as a portfolio and research implementation of the prototype. The original academic evaluation and conclusions should be interpreted within the experimental scope and limitations described above.
+
+---
+
+## Author
+
+**Samik Bhatia**
+
+MSc Artificial Intelligence and Machine Learning  
+University of Birmingham
