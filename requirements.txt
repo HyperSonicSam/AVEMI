@@ -2,6 +2,7 @@ streamlit
 ollama
 faster-whisper
 streamlit-mic-recorder
+piper-tts
 tensorflow
 librosa
 numpy
