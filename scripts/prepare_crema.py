@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 import random
 
 import pandas as pd
@@ -8,13 +9,18 @@ import pandas as pd
 # Configuration
 # ---------------------------------------------------------
 
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+
 CREMA_ROOT = Path(
-    r"C:\Users\Samik Bhatia\Desktop\Work\datasets\CREMA-D"
+    os.getenv(
+        "CREMA_ROOT",
+        PROJECT_ROOT.parent / "datasets" / "CREMA-D"
+    )
 )
 
 AUDIO_DIR = CREMA_ROOT / "AudioWAV"
 
-OUTPUT_FILE = Path("data") / "crema_metadata.csv"
+OUTPUT_FILE = PROJECT_ROOT / "data" / "crema_metadata.csv"
 
 RANDOM_SEED = 42
 
@@ -195,7 +201,10 @@ def print_summary(df):
 def main():
     if not AUDIO_DIR.exists():
         raise FileNotFoundError(
-            f"CREMA-D AudioWAV directory not found:\n{AUDIO_DIR}"
+            "CREMA-D AudioWAV directory not found:\n"
+            f"{AUDIO_DIR}\n\n"
+            "Set the CREMA_ROOT environment variable to your local CREMA-D "
+            "directory and run the script again."
         )
 
     print("Reading CREMA-D...")
