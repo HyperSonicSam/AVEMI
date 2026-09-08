@@ -1,4 +1,26 @@
+from html import escape
+from pathlib import Path
+
 import streamlit as st
+
+
+TEMPLATE_DIR = Path(__file__).resolve().parent / "templates"
+
+
+def _load_template(name):
+    """Load a reusable HTML fragment for the dashboard."""
+    return (TEMPLATE_DIR / name).read_text(encoding="utf-8")
+
+
+def _render_template(name, **values):
+    """Render a dashboard HTML fragment with escaped dynamic values."""
+    template = _load_template(name)
+    safe_values = {
+        key: escape(str(value))
+        for key, value in values.items()
+    }
+    return template.format(**safe_values)
+
 
 def render_dashboard(
     vehicle_state,
@@ -13,12 +35,7 @@ def render_dashboard(
     # -----------------------------------------------------
 
     st.markdown(
-        """
-<div class="avemi-title">AVEMI</div>
-<div class="avemi-subtitle">
-Affective Vehicle Emotion-aware Multimodal Intelligence
-</div>
-""",
+        _load_template("header.html"),
         unsafe_allow_html=True
     )
 
@@ -30,34 +47,34 @@ Affective Vehicle Emotion-aware Multimodal Intelligence
 
     with status_1:
         st.markdown(
-            """
-<div class="avemi-status-card">
-<span class="status-online">●</span>
-&nbsp; AVEMI Online
-</div>
-""",
+            _render_template(
+                "status_card.html",
+                status_class="status-online",
+                icon="●",
+                label="AVEMI Online"
+            ),
             unsafe_allow_html=True
         )
 
     with status_2:
         st.markdown(
-            """
-<div class="avemi-status-card">
-<span class="status-blue">◈</span>
-&nbsp; Qwen3 4B
-</div>
-""",
+            _render_template(
+                "status_card.html",
+                status_class="status-blue",
+                icon="◈",
+                label="Qwen3 4B"
+            ),
             unsafe_allow_html=True
         )
 
     with status_3:
         st.markdown(
-            """
-<div class="avemi-status-card">
-<span class="status-blue">🎙</span>
-&nbsp; Voice + Text
-</div>
-""",
+            _render_template(
+                "status_card.html",
+                status_class="status-blue",
+                icon="🎙",
+                label="Voice + Text"
+            ),
             unsafe_allow_html=True
         )
 
@@ -81,32 +98,24 @@ Affective Vehicle Emotion-aware Multimodal Intelligence
         st.markdown("#### 🚘 Vehicle")
 
         st.markdown(
-            f"""
-<div class="avemi-card">
-<div class="card-label">Cabin Temperature</div>
-<div class="card-value blue-value">
-{vehicle_state['temperature']}°C
-</div>
-<div class="card-subtext">
-Climate control
-</div>
-</div>
-""",
+            _render_template(
+                "card.html",
+                label="Cabin Temperature",
+                value_class="blue-value",
+                value=f"{vehicle_state['temperature']}°C",
+                subtext="Climate control"
+            ),
             unsafe_allow_html=True
         )
 
         st.markdown(
-            f"""
-<div class="avemi-card">
-<div class="card-label">Fuel Level</div>
-<div class="card-value green-value">
-{vehicle_state['fuel_level']}%
-</div>
-<div class="card-subtext">
-Vehicle fuel status
-</div>
-</div>
-""",
+            _render_template(
+                "card.html",
+                label="Fuel Level",
+                value_class="green-value",
+                value=f"{vehicle_state['fuel_level']}%",
+                subtext="Vehicle fuel status"
+            ),
             unsafe_allow_html=True
         )
 
@@ -115,17 +124,13 @@ Vehicle fuel status
         )
 
         st.markdown(
-            f"""
-<div class="avemi-card">
-<div class="card-label">Media</div>
-<div class="card-value purple-value">
-{vehicle_state['music_status']}
-</div>
-<div class="card-subtext">
-{music_category}
-</div>
-</div>
-""",
+            _render_template(
+                "card.html",
+                label="Media",
+                value_class="purple-value",
+                value=vehicle_state["music_status"],
+                subtext=music_category
+            ),
             unsafe_allow_html=True
         )
 
@@ -136,27 +141,7 @@ Vehicle fuel status
     with center_dashboard:
 
         st.markdown(
-            """
-<div class="hud-wrapper">
-<div class="hud-orb">
-
-<div class="hud-ring hud-ring-one"></div>
-<div class="hud-ring hud-ring-two"></div>
-<div class="hud-ring hud-ring-three"></div>
-<div class="hud-ring hud-ring-four"></div>
-
-<div class="hud-core">
-<div class="hud-logo">AVEMI</div>
-
-<div class="hud-status">
-<span class="hud-dot"></span>
-System Active
-</div>
-
-</div>
-</div>
-</div>
-""",
+            _load_template("hud.html"),
             unsafe_allow_html=True
         )
 
@@ -183,17 +168,13 @@ System Active
             navigation_detail = "No active route"
 
         st.markdown(
-            f"""
-<div class="avemi-card">
-<div class="card-label">Navigation</div>
-<div class="card-value orange-value">
-{navigation_value}
-</div>
-<div class="card-subtext">
-{navigation_detail}
-</div>
-</div>
-""",
+            _render_template(
+                "card.html",
+                label="Navigation",
+                value_class="orange-value",
+                value=navigation_value,
+                subtext=navigation_detail
+            ),
             unsafe_allow_html=True
         )
 
@@ -238,17 +219,13 @@ System Active
             emotion_detail = "Baseline mode"
 
         st.markdown(
-            f"""
-<div class="avemi-card">
-<div class="card-label">Driver Emotion</div>
-<div class="card-value blue-value">
-{displayed_emotion}
-</div>
-<div class="card-subtext">
-{emotion_detail}
-</div>
-</div>
-""",
+            _render_template(
+                "card.html",
+                label="Driver Emotion",
+                value_class="blue-value",
+                value=displayed_emotion,
+                subtext=emotion_detail
+            ),
             unsafe_allow_html=True
         )
 
@@ -261,16 +238,12 @@ System Active
         )
 
         st.markdown(
-            f"""
-<div class="avemi-card">
-<div class="card-label">Destination</div>
-<div class="card-value purple-value">
-{destination}
-</div>
-<div class="card-subtext">
-Current route target
-</div>
-</div>
-""",
+            _render_template(
+                "card.html",
+                label="Destination",
+                value_class="purple-value",
+                value=destination,
+                subtext="Current route target"
+            ),
             unsafe_allow_html=True
         )
