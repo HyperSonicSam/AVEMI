@@ -1,0 +1,3 @@
+# GitHub Linguist classification
+# AVEMI's interface stylesheet is maintained as genuine CSS and loaded by Streamlit.
+assets/styles.css linguist-language=CSS linguist-detectable=true
