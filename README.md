@@ -41,6 +41,8 @@ AVEMI separates the system into three principal pathways:
 
 This separation allows emotional context to influence interaction while preventing an estimated emotion from overriding an explicit vehicle command or allowing the LLM to directly control the simulated vehicle state.
 
+The user interface is also separated by responsibility: Python retains Streamlit control flow and state logic, reusable dashboard markup is stored under `src/ui/templates/`, and styling is maintained in `assets/styles.css`.
+
 ---
 
 ## Emotion-Aware Interaction
@@ -123,6 +125,8 @@ Explicit supported operations are routed through deterministic application logic
 ## Technology Stack
 
 - Python
+- HTML
+- CSS
 - Streamlit
 - Qwen3 4B
 - Ollama
@@ -148,26 +152,32 @@ AVEMI/
 ├── requirements.txt
 ├── README.md
 ├── assets/
-│   └── avemi-dashboard.png
+│   ├── avemi-dashboard.png
+│   └── styles.css
 ├── data/
 │   ├── crema_metadata.csv
 │   ├── emotion_profiles.json
 │   └── README.md
 ├── models/
 │   ├── speech_emotion_cnn.keras
-│   └── speech_emotion_config.json
+│   ├── speech_emotion_config.json
+│   └── piper/                     # created locally by setup script
 ├── src/
 │   ├── emotion/
 │   ├── intents/
 │   ├── llm/
 │   ├── speech/
+│   ├── ui/
+│   │   └── templates/
 │   └── vehicle/
 ├── scripts/
+│   ├── setup_piper_voice.py
+│   └── ...
 └── evaluation/
     └── ser/
 ```
 
-The raw CREMA-D media files and local Piper voice model are intentionally not included in the repository.
+The raw CREMA-D media files and Piper voice model binaries are intentionally not committed to the repository.
 
 ---
 
@@ -204,13 +214,30 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 4. Install external components
+This installs the Piper runtime as well as the Python packages required by AVEMI. The separate Piper voice model is downloaded in the next step.
+
+### 4. Download the Piper voice
+
+AVEMI uses the `en_GB-jenny_dioco-medium` Piper voice. Download and verify it with:
+
+```bash
+python scripts/setup_piper_voice.py
+```
+
+The script retrieves the model and configuration from the official `rhasspy/piper-voices` repository on Hugging Face, verifies their checksums, and stores them under:
+
+```text
+models/piper/
+```
+
+The voice files are runtime assets and remain excluded from Git. If you prefer to use another compatible Piper model, set the `PIPER_MODEL_PATH` environment variable to its `.onnx` file.
+
+### 5. Install external components
 
 AVEMI also requires:
 
 - **FFmpeg**, available from the command line
 - **Ollama**, running locally with the required Qwen3 4B model
-- **Piper TTS** and a compatible local Piper voice model for spoken output
 
 Verify FFmpeg with:
 
@@ -218,7 +245,7 @@ Verify FFmpeg with:
 ffmpeg -version
 ```
 
-The Piper voice model is deliberately excluded from Git because it is a large runtime asset. Configure/download the required Piper voice locally before enabling TTS.
+The Jenny voice model card identifies the voice as English (`en_GB`), single-speaker, medium quality, 22.05 kHz, and points to the Jenny TTS dataset for dataset-specific licensing information. Review the upstream model card and dataset licence before redistributing voice files.
 
 ---
 
@@ -245,6 +272,12 @@ streamlit run app.py
 ```
 
 The Streamlit interface will then open in the browser.
+
+If voice output is enabled but the Piper model is missing, AVEMI will now show a direct setup instruction telling you to run:
+
+```bash
+python scripts/setup_piper_voice.py
+```
 
 ---
 
