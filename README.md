@@ -8,6 +8,10 @@ It explores a simple question: **can estimated emotional context make an in-vehi
 
 The prototype combines local speech recognition, speech emotion recognition, local LLM-based conversation, text-to-speech and deterministic simulated vehicle controls in a single Streamlit application.
 
+![AVEMI dashboard showing the vehicle state, central HUD, journey information and conversational interface](assets/avemi-dashboard.png)
+
+*AVEMI prototype dashboard in Baseline mode, showing the simulated vehicle state, central HUD, journey information, and text/voice interaction controls.*
+
 > **Project status:** Research prototype / proof of concept. AVEMI is not a production vehicle-control system and has not been validated for safety-critical use.
 
 ---
@@ -143,6 +147,8 @@ AVEMI/
 ├── app.py
 ├── requirements.txt
 ├── README.md
+├── assets/
+│   └── avemi-dashboard.png
 ├── data/
 │   ├── crema_metadata.csv
 │   ├── emotion_profiles.json
