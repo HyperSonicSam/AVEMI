@@ -1,27 +1,39 @@
-# Virtual Environment
+# Virtual environments
 .venv/
 venv/
+env/
 
 # Python
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
 
-# Environment Variables
+# Environment variables / secrets
 .env
 .env.*
+!.env.example
+*.pem
+*.key
 
-# VS Code
+# IDE / editor
 .vscode/
+.idea/
 
 # Streamlit
 .streamlit/
 
-# Database
+# Databases / local state
 *.db
+*.sqlite
+*.sqlite3
 
-# Raw Datasets
+# Raw datasets
+# Keep dataset metadata and documentation, but not the CREMA-D media files.
 datasets/
 data/CREMA-D/
 CREMA-D/
@@ -29,15 +41,28 @@ AudioWAV/
 AudioMP3/
 VideoFlash/
 
-# Temporary / Recorded Audio
+# Temporary / recorded audio
 *.webm
+*.wav
+*.mp3
 *.tmp
 temp/
 tmp/
 
-# OS Files
+# Local model/runtime assets
+# The trained SER model in models/ is intentionally versioned.
+# Piper voice models should be downloaded locally rather than committed.
+*.onnx
+*.onnx.json
+
+# OS files
 .DS_Store
 Thumbs.db
 
 # Logs
 *.log
+
+# Build / packaging
+build/
+dist/
+*.egg-info/
